@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eidentity.proto\"\x17\n\x06hrData\x12\r\n\x05hr_id\x18\x01 \x01(\t\"+\n\x07iamData\x12\r\n\x05hr_id\x18\x01 \x01(\t\x12\x11\n\tuser_name\x18\x02 \x01(\t2T\n\x08Identity\x12\"\n\x0bgetIdentity\x12\x07.hrData\x1a\x08.iamData\"\x00\x12$\n\renterIdentity\x12\x07.hrData\x1a\x08.iamData\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eidentity.proto\"\x17\n\x06hrData\x12\r\n\x05hr_id\x18\x01 \x01(\t\"+\n\x07iamData\x12\r\n\x05hr_id\x18\x01 \x01(\t\x12\x11\n\tuser_name\x18\x02 \x01(\t2\x83\x01\n\x08Identity\x12+\n\x14\x63reateUpdateIdentity\x12\x07.hrData\x1a\x08.iamData\"\x00\x12#\n\x0creadIdentity\x12\x07.hrData\x1a\x08.iamData\"\x00\x12%\n\x0e\x64\x65leteIdentity\x12\x07.hrData\x1a\x08.iamData\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'identity_pb2', globals())
@@ -24,6 +24,6 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _HRDATA._serialized_end=41
   _IAMDATA._serialized_start=43
   _IAMDATA._serialized_end=86
-  _IDENTITY._serialized_start=88
-  _IDENTITY._serialized_end=172
+  _IDENTITY._serialized_start=89
+  _IDENTITY._serialized_end=220
 # @@protoc_insertion_point(module_scope)

@@ -1,8 +1,9 @@
 syntax = "proto3";
 
 service Identity {
-   rpc getIdentity (hrData) returns (iamData) {}
-   rpc enterIdentity (hrData) returns (iamData) {}
+   rpc createUpdateIdentity (hrData) returns (iamData) {}
+   rpc readIdentity (hrData) returns (iamData) {}
+   rpc deleteIdentity (hrData) returns (iamData) {}
 }
 message hrData {
     string hr_id = 1;
