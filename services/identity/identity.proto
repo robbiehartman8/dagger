@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+service Identity {
+   rpc getIdentity (hrData) returns (iamData) {}
+   rpc enterIdentity (hrData) returns (iamData) {}
+}
+message hrData {
+    string hr_id = 1;
+}
+message iamData {
+   string hr_id = 1;
+   string user_name = 2;
+}
+
+// python -m grpc_tools.protoc --proto_path=. ./identity.proto --python_out=. --grpc_python_out=.
