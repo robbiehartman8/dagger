@@ -11,9 +11,9 @@ from snowflake_connection import SnowflakeConnetion
 conn = SnowflakeConnetion().getConnection()
 
 cur = conn.cursor()
+hr_id = "18874754"
+results = cur.execute(f"select hr_id, user_id from identity.identity where hr_id = '{hr_id}'").fetchall()
 
-results = cur.execute('select * from identity.identity').fetchall()
-for rec in results:
-    print(rec)
+print(results[0][0])
 
 conn.close()
