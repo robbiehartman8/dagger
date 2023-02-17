@@ -3,10 +3,9 @@
 class ServiceUtilities:
 
     def getResponse(self, response_attributes, raw_response_data):
-        reponse_keys = list(response_attributes.keys())
         response = {}
         raw_response_data = {k.lower(): v for k, v in raw_response_data.items()}
-        for key in reponse_keys:
+        for key in response_attributes:
             try:
                 response[key] = raw_response_data[key]
             except: 

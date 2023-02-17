@@ -29,8 +29,10 @@ create table if not exists identity.identity (
     phone_number_work_mobile varchar(100) null,
     phone_number_home varchar(100) null,
     phone_number_home_mobile varchar(100) null,
-    email_work variant null,
-    email_home variant null,
+    email_work_primary varchar(255) null,
+    email_work_secondary variant null,
+    email_home_primary varchar(255) null,
+    email_home_secondary variant null,
     status varchar(100) null,
     hire_start_date varchar(100) null,
     termination_date varchar(100) null,
@@ -40,7 +42,8 @@ create table if not exists identity.identity (
     cost_center varchar(100) null,
     manager_identity_id varchar(100) null, --create query to populate this
     manager_hr_id varchar(100) null,
-    manager_user_id varchar(100) null --create query to populate this
+    manager_user_id varchar(100) null, --create query to populate this
+    to_be_deleted boolean null
 );
 
 create stream if not exists identity_stream on table identity;
@@ -74,8 +77,10 @@ create table if not exists identity.identity_aud (
     phone_number_work_mobile varchar(100) null,
     phone_number_home varchar(100) null,
     phone_number_home_mobile varchar(100) null,
-    email_work variant null,
-    email_home variant null,
+    email_work_primary varchar(255) null,
+    email_work_secondary variant null,
+    email_home_primary varchar(255) null,
+    email_home_secondary variant null,
     status varchar(100) null,
     hire_start_date varchar(100) null,
     termination_date varchar(100) null,
@@ -85,5 +90,6 @@ create table if not exists identity.identity_aud (
     cost_center varchar(100) null,
     manager_identity_id varchar(100) null, --create query to populate this
     manager_hr_id varchar(100) null,
-    manager_user_id varchar(100) null --create query to populate this
+    manager_user_id varchar(100) null, --create query to populate this
+    to_be_deleted boolean null
 );

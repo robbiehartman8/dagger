@@ -16,7 +16,8 @@ class Identity(identity_pb2_grpc.IdentityServicer):
     def __init__(self):
         self.snowflake_connection = SnowflakeConnetion().getConnection()
         self.service_util = ServiceUtilities()
-        self.select_attributes = QueryUtilities().getSelectQuery(const.identity_select_attribute_list)
+        self.service_attributes = list(identityData.DESCRIPTOR.fields_by_name.keys())
+        self.select_attributes = QueryUtilities().getSelectQuery(self.service_attributes)
 
     def readIdentity(self, request, context):
 
@@ -36,7 +37,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
 
             try:
                 results = results[0]
-                response = self.service_util.getResponse(identityData.DESCRIPTOR.fields_by_name, results)
+                response = self.service_util.getResponse(self.service_attributes, results)
                 response_data = identity_pb2.identityData(**response)
             except:
                 response_data = identity_pb2.identityData()
