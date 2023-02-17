@@ -1,6 +1,6 @@
 -- this file creates the identity.identity table
 
--- TODO: action flags in the table
+-- TODO: action flags in the table: mark for delete
 
 use dagger.identity;
 
@@ -25,10 +25,10 @@ create table if not exists identity.identity (
     location_code varchar(100) null,
     location_name varchar(100) null,
     location_address varchar(100) null,
-    phone_number_work variant null,
-    phone_number_work_mobile variant null,
-    phone_number_home variant null,
-    phone_number_home_mobile variant null,
+    phone_number_work varchar(100) null,
+    phone_number_work_mobile varchar(100) null,
+    phone_number_home varchar(100) null,
+    phone_number_home_mobile varchar(100) null,
     email_work variant null,
     email_home variant null,
     status varchar(100) null,
@@ -70,10 +70,10 @@ create table if not exists identity.identity_aud (
     location_code varchar(100) null,
     location_name varchar(100) null,
     location_address varchar(100) null,
-    phone_number_work variant null,
-    phone_number_work_mobile variant null,
-    phone_number_home variant null,
-    phone_number_home_mobile variant null,
+    phone_number_work varchar(100) null,
+    phone_number_work_mobile varchar(100) null,
+    phone_number_home varchar(100) null,
+    phone_number_home_mobile varchar(100) null,
     email_work variant null,
     email_home variant null,
     status varchar(100) null,

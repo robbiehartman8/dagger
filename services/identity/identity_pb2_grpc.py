@@ -17,17 +17,17 @@ class IdentityStub(object):
         self.createUpdateIdentity = channel.unary_unary(
                 '/Identity/createUpdateIdentity',
                 request_serializer=identity__pb2.hrData.SerializeToString,
-                response_deserializer=identity__pb2.iamData.FromString,
+                response_deserializer=identity__pb2.identityData.FromString,
                 )
         self.readIdentity = channel.unary_unary(
                 '/Identity/readIdentity',
-                request_serializer=identity__pb2.hrData.SerializeToString,
-                response_deserializer=identity__pb2.iamData.FromString,
+                request_serializer=identity__pb2.readData.SerializeToString,
+                response_deserializer=identity__pb2.identityData.FromString,
                 )
         self.deleteIdentity = channel.unary_unary(
                 '/Identity/deleteIdentity',
-                request_serializer=identity__pb2.hrData.SerializeToString,
-                response_deserializer=identity__pb2.iamData.FromString,
+                request_serializer=identity__pb2.deleteData.SerializeToString,
+                response_deserializer=identity__pb2.deleteMessage.FromString,
                 )
 
 
@@ -58,17 +58,17 @@ def add_IdentityServicer_to_server(servicer, server):
             'createUpdateIdentity': grpc.unary_unary_rpc_method_handler(
                     servicer.createUpdateIdentity,
                     request_deserializer=identity__pb2.hrData.FromString,
-                    response_serializer=identity__pb2.iamData.SerializeToString,
+                    response_serializer=identity__pb2.identityData.SerializeToString,
             ),
             'readIdentity': grpc.unary_unary_rpc_method_handler(
                     servicer.readIdentity,
-                    request_deserializer=identity__pb2.hrData.FromString,
-                    response_serializer=identity__pb2.iamData.SerializeToString,
+                    request_deserializer=identity__pb2.readData.FromString,
+                    response_serializer=identity__pb2.identityData.SerializeToString,
             ),
             'deleteIdentity': grpc.unary_unary_rpc_method_handler(
                     servicer.deleteIdentity,
-                    request_deserializer=identity__pb2.hrData.FromString,
-                    response_serializer=identity__pb2.iamData.SerializeToString,
+                    request_deserializer=identity__pb2.deleteData.FromString,
+                    response_serializer=identity__pb2.deleteMessage.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -93,7 +93,7 @@ class Identity(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Identity/createUpdateIdentity',
             identity__pb2.hrData.SerializeToString,
-            identity__pb2.iamData.FromString,
+            identity__pb2.identityData.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -109,8 +109,8 @@ class Identity(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Identity/readIdentity',
-            identity__pb2.hrData.SerializeToString,
-            identity__pb2.iamData.FromString,
+            identity__pb2.readData.SerializeToString,
+            identity__pb2.identityData.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -126,7 +126,7 @@ class Identity(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Identity/deleteIdentity',
-            identity__pb2.hrData.SerializeToString,
-            identity__pb2.iamData.FromString,
+            identity__pb2.deleteData.SerializeToString,
+            identity__pb2.deleteMessage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

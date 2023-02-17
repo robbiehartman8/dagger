@@ -5,6 +5,7 @@ import identity_pb2_grpc
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
 from snowflake_connection import SnowflakeConnetion
+from query_utilities import QueryUtil
 from snowflake.connector import DictCursor
 import identity_constants as const
 
@@ -14,23 +15,33 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         self.snowflake_connection = SnowflakeConnetion().getConnection()
 
     def readIdentity(self, request, context):
-        
-        try:
-            curr = self.snowflake_connection.cursor(DictCursor)
-            results = curr.execute(const.read_identity_query.format(request.hr_id)).fetchall()
-        except:
-            self.snowflake_connection = SnowflakeConnetion().getConnection()
-            curr = self.snowflake_connection.cursor(DictCursor)
-            results = curr.execute(const.read_identity_query.format(request.hr_id)).fetchall()
 
-        try:
-            results = results[0]
-            response_data = identity_pb2.iamData(
-                hr_id = results["HR_ID"], 
-                user_name = results["USER_ID"]
-            )
-        except:
-            response_data = const.response_data_null
+        select_attributes = QueryUtil().getSelectQuery(const.identity_attribute_list)
+
+        if request.hr_id != "":
+            read_query = const.read_identity_query.format(select_attributes, "hr_id", request.hr_id)
+        elif request.identity_id != "":
+            read_query = const.read_identity_query.format(select_attributes, "identity_id", request.identity_id)
+
+        if request.hr_id != "" or request.identity_id != "":
+            try:
+                curr = self.snowflake_connection.cursor(DictCursor)
+                results = curr.execute(read_query).fetchall()
+            except:
+                self.snowflake_connection = SnowflakeConnetion().getConnection()
+                curr = self.snowflake_connection.cursor(DictCursor)
+                results = curr.execute(read_query).fetchall()
+
+            try:
+                results = results[0]
+                response_data = identity_pb2.identityData(
+                    hr_id = results["HR_ID"], 
+                    user_id = results["USER_ID"]
+                )
+            except:
+                response_data = dentity_pb2.identityData()
+        else:
+            response_data = dentity_pb2.identityData()
 
         return response_data
 

@@ -1,16 +1,90 @@
 syntax = "proto3";
 
 service Identity {
-   rpc createUpdateIdentity (hrData) returns (iamData) {}
-   rpc readIdentity (hrData) returns (iamData) {}
-   rpc deleteIdentity (hrData) returns (iamData) {}
+   rpc createUpdateIdentity (hrData) returns (identityData) {}
+   rpc readIdentity (readData) returns (identityData) {}
+   rpc deleteIdentity (deleteData) returns (deleteMessage) {}
 }
+
+message readData {
+    optional string hr_id = 1;
+    optional string identity_id = 2;
+}
+
 message hrData {
     string hr_id = 1;
+    string user_id = 2;
+    string legal_first_name = 3;
+    string legal_middle_name = 4;
+    string legal_last_name = 5;
+    string preferred_first_name = 6;
+    string preferred_middle_name = 7;
+    string preferred_last_name = 8;
+    string job_title_code = 9;
+    string job_title_description = 10;
+    string job_title_level = 11;
+    string location_code = 12;
+    string location_name = 13;
+    string location_address = 14;
+    string phone_number_work = 15;
+    string phone_number_work_mobile = 16;
+    string phone_number_home = 17;
+    string phone_number_home_mobile = 18;
+    string email_work = 19;
+    string email_home = 20;
+    string status = 21;
+    string hire_start_date = 22;
+    string termination_date = 23;
+    string leave_of_absense_start_date = 24;
+    string leave_of_absense_end_date = 25;
+    string employee_type = 26;
+    string cost_center = 27;
+    string manager_hr_id = 28;
 }
-message iamData {
-   string hr_id = 1;
-   string user_name = 2;
+
+message identityData {
+    string identity_id = 1;
+    string identity_create_ts = 2;
+    string identity_last_update_ts = 3;
+    string hr_id = 4;
+    string user_id = 5;
+    string legal_first_name = 6;
+    string legal_middle_name = 7;
+    string legal_last_name = 8;
+    string preferred_first_name = 9;
+    string preferred_middle_name = 10;
+    string preferred_last_name = 11;
+    string job_title_code = 12;
+    string job_title_description = 13;
+    string job_title_level = 14;
+    string location_code = 15;
+    string location_name = 16;
+    string location_address = 17;
+    string phone_number_work = 18;
+    string phone_number_work_mobile = 19;
+    string phone_number_home = 20;
+    string phone_number_home_mobile = 21;
+    string email_work_primary = 22;
+    string email_home_primary = 23;
+    string status = 24;
+    string hire_start_date = 25;
+    string termination_date = 26;
+    string leave_of_absense_start_date = 27;
+    string leave_of_absense_end_date = 28;
+    string employee_type = 29;
+    string cost_center = 30;
+    string manager_identity_id = 31;
+    string manager_hr_id = 32;
+    string manager_user_id = 33;
+}
+
+message deleteData {
+    optional string hr_id = 1;
+    optional string identity_id = 2;
+}
+
+message deleteMessage {
+    string message = 1;
 }
 
 // python -m grpc_tools.protoc --proto_path=. ./identity.proto --python_out=. --grpc_python_out=.
