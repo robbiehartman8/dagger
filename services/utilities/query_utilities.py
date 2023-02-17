@@ -1,6 +1,6 @@
 # this file helps construct queries for the services
 
-class QueryUtil:
+class QueryUtilities:
 
     def getSelectQuery(self, attribute_list):
         select = ""

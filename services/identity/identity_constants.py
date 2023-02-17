@@ -1,9 +1,7 @@
 # this file contains all of the contants used in the identity service
 
-import identity_pb2
-
 # attributes
-identity_attribute_list = [
+identity_select_attribute_list = [
     "identity_id", "create_ts",
     "update_ts", "hr_id",
     "user_id", "legal_first_name",

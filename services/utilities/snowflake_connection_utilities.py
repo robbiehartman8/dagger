@@ -1,8 +1,8 @@
 import snowflake.connector
 from azure.keyvault.secrets import SecretClient
 from azure.identity import DefaultAzureCredential
-from utilities_config import keyvault_config
-from utilities_config import snowflake_config
+from config_utilities import keyvault_config
+from config_utilities import snowflake_config
 
 # TODO: fix the logging
 

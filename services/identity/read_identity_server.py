@@ -1,27 +1,29 @@
 from concurrent import futures
 import grpc
 import identity_pb2
+from identity_pb2 import identityData
 import identity_pb2_grpc
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
-from snowflake_connection import SnowflakeConnetion
-from query_utilities import QueryUtil
+from snowflake_connection_utilities import SnowflakeConnetion
+from query_utilities import QueryUtilities
 from snowflake.connector import DictCursor
+from service_utilities import ServiceUtilities
 import identity_constants as const
 
 class Identity(identity_pb2_grpc.IdentityServicer):
 
     def __init__(self):
         self.snowflake_connection = SnowflakeConnetion().getConnection()
+        self.service_util = ServiceUtilities()
+        self.select_attributes = QueryUtilities().getSelectQuery(const.identity_select_attribute_list)
 
     def readIdentity(self, request, context):
 
-        select_attributes = QueryUtil().getSelectQuery(const.identity_attribute_list)
-
         if request.hr_id != "":
-            read_query = const.read_identity_query.format(select_attributes, "hr_id", request.hr_id)
+            read_query = const.read_identity_query.format(self.select_attributes, "hr_id", request.hr_id)
         elif request.identity_id != "":
-            read_query = const.read_identity_query.format(select_attributes, "identity_id", request.identity_id)
+            read_query = const.read_identity_query.format(self.select_attributes, "identity_id", request.identity_id)
 
         if request.hr_id != "" or request.identity_id != "":
             try:
@@ -34,14 +36,12 @@ class Identity(identity_pb2_grpc.IdentityServicer):
 
             try:
                 results = results[0]
-                response_data = identity_pb2.identityData(
-                    hr_id = results["HR_ID"], 
-                    user_id = results["USER_ID"]
-                )
+                response = self.service_util.getResponse(identityData.DESCRIPTOR.fields_by_name, results)
+                response_data = identity_pb2.identityData(**response)
             except:
-                response_data = dentity_pb2.identityData()
+                response_data = identity_pb2.identityData()
         else:
-            response_data = dentity_pb2.identityData()
+            response_data = identity_pb2.identityData()
 
         return response_data
 

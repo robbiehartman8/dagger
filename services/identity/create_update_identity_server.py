@@ -4,7 +4,7 @@ import identity_pb2
 import identity_pb2_grpc
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
-from snowflake_connection import SnowflakeConnetion
+from snowflake_connection_utilities import SnowflakeConnetion
 from snowflake.connector import DictCursor
 from snowflake import connector
 connector.paramstyle='qmark'
