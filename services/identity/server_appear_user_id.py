@@ -11,6 +11,8 @@ from snowflake.connector import DictCursor
 from service_utilities import ServiceUtilities
 import identity_constants as const
 
+# TODO: do all of this
+
 class Identity(identity_pb2_grpc.IdentityServicer):
 
     def __init__(self):

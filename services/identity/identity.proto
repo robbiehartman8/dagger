@@ -4,11 +4,19 @@ service Identity {
    rpc createUpdateIdentity (hrData) returns (hrDataMessage) {}
    rpc readIdentity (readData) returns (identityData) {}
    rpc deleteIdentity (deleteData) returns (deleteMessage) {}
+   rpc appearUserId (readData) returns (userIdMessage) {}
 }
 
 message readData {
     optional string hr_id = 1;
     optional string identity_id = 2;
+}
+
+message userIdMessage {
+    string identity_id = 1;
+    string hr_id = 2;
+    string user_id = 3;
+    string status_message = 4;
 }
 
 message hrData {

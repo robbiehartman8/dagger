@@ -5,7 +5,6 @@ import identity_pb2_grpc
 from google.protobuf.json_format import MessageToDict
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
-sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/identity")
 from snowflake_connection_utilities import SnowflakeConnetion
 from snowflake.connector import DictCursor
 from snowflake import connector
