@@ -12,14 +12,16 @@ def readIdentity():
     
     print(response)
 
-def createIdentity():
+def createUpdateIdentity():
     with grpc.insecure_channel('localhost:50051') as channel:
         stub = identity_pb2_grpc.IdentityStub(channel)
-        response = stub.createIdentity(identity_pb2.readData(
-            hr_id='12345'
+        response = stub.createUpdateIdentity(identity_pb2.hrData(
+            hr_id='293',
+            legal_first_name='23',
+            legal_last_name=''
         ))
 
     print(response)
 
 if __name__ == '__main__':
-    readIdentity()
+    createUpdateIdentity()

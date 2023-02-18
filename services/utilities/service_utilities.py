@@ -11,3 +11,9 @@ class ServiceUtilities:
             except: 
                 response[key] = ""
         return response
+    
+    def cleanRequest(self, reuqest_data):
+        for key, value in list(reuqest_data.items()):
+            if value == '':
+                del data[key]
+        return reuqest_data

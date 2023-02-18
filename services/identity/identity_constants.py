@@ -7,11 +7,11 @@ from identity.identity
 where {1} = '{2}'
 """
 
-create_identity_query = """
-merge into identity i
+create_update_identity_query = """
+merge into identity.identity i
 using 
-	(select ? as s) m on i.hr_id = m.s
-when matched then update set i.legal_first_name = ?
-when not matched then insert (identity_id, hr_id, user_id) 
-values (?, ?, ?);
+	(select '{0}' as s) m on i.hr_id = m.s
+when matched then update set {1}
+when not matched then insert ({2}) 
+values ({3});
 """

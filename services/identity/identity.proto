@@ -13,33 +13,32 @@ message readData {
 
 message hrData {
     string hr_id = 1;
-    string user_id = 2;
-    string legal_first_name = 3;
-    string legal_middle_name = 4;
-    string legal_last_name = 5;
-    string preferred_first_name = 6;
-    string preferred_middle_name = 7;
-    string preferred_last_name = 8;
-    string job_title_code = 9;
-    string job_title_description = 10;
-    string job_title_level = 11;
-    string location_code = 12;
-    string location_name = 13;
-    string location_address = 14;
-    string phone_number_work = 15;
-    string phone_number_work_mobile = 16;
-    string phone_number_home = 17;
-    string phone_number_home_mobile = 18;
-    string email_work = 19;
-    string email_home = 20;
-    string status = 21;
-    string hire_start_date = 22;
-    string termination_date = 23;
-    string leave_of_absense_start_date = 24;
-    string leave_of_absense_end_date = 25;
-    string employee_type = 26;
-    string cost_center = 27;
-    string manager_hr_id = 28;
+    string legal_first_name = 2;
+    string legal_middle_name = 3;
+    string legal_last_name = 4;
+    string preferred_first_name = 5;
+    string preferred_middle_name = 6;
+    string preferred_last_name = 7;
+    string job_title_code = 8;
+    string job_title_description = 9;
+    string job_title_level = 10;
+    string location_code = 11;
+    string location_name = 12;
+    string location_address = 13;
+    string phone_number_work = 14;
+    string phone_number_work_mobile = 15;
+    string phone_number_home = 16;
+    string phone_number_home_mobile = 17;
+    string email_work = 18;
+    string email_home = 19;
+    string status = 20;
+    string hire_start_date = 21;
+    string termination_date = 22;
+    string leave_of_absense_start_date = 23;
+    string leave_of_absense_end_date = 24;
+    string employee_type = 25;
+    string cost_center = 26;
+    string manager_hr_id = 27;
 }
 
 message identityData {
