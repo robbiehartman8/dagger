@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 service Identity {
-   rpc createUpdateIdentity (hrData) returns (identityData) {}
+   rpc createUpdateIdentity (hrData) returns (hrDataMessage) {}
    rpc readIdentity (readData) returns (identityData) {}
    rpc deleteIdentity (deleteData) returns (deleteMessage) {}
 }
@@ -39,6 +39,13 @@ message hrData {
     string employee_type = 25;
     string cost_center = 26;
     string manager_hr_id = 27;
+}
+
+message hrDataMessage {
+    string identity_id = 1;
+    string hr_id = 2;
+    string user_id = 3;
+    string status_message = 4;
 }
 
 message identityData {

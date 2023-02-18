@@ -17,7 +17,7 @@ class IdentityStub(object):
         self.createUpdateIdentity = channel.unary_unary(
                 '/Identity/createUpdateIdentity',
                 request_serializer=identity__pb2.hrData.SerializeToString,
-                response_deserializer=identity__pb2.identityData.FromString,
+                response_deserializer=identity__pb2.hrDataMessage.FromString,
                 )
         self.readIdentity = channel.unary_unary(
                 '/Identity/readIdentity',
@@ -58,7 +58,7 @@ def add_IdentityServicer_to_server(servicer, server):
             'createUpdateIdentity': grpc.unary_unary_rpc_method_handler(
                     servicer.createUpdateIdentity,
                     request_deserializer=identity__pb2.hrData.FromString,
-                    response_serializer=identity__pb2.identityData.SerializeToString,
+                    response_serializer=identity__pb2.hrDataMessage.SerializeToString,
             ),
             'readIdentity': grpc.unary_unary_rpc_method_handler(
                     servicer.readIdentity,
@@ -93,7 +93,7 @@ class Identity(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Identity/createUpdateIdentity',
             identity__pb2.hrData.SerializeToString,
-            identity__pb2.identityData.FromString,
+            identity__pb2.hrDataMessage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

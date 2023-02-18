@@ -37,7 +37,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
 
             try:
                 results = results[0]
-                response = self.service_util.getResponse(self.service_attributes, results)
+                response = self.service_util.getReadResponse(self.service_attributes, results)
                 response_data = identity_pb2.identityData(**response)
             except:
                 response_data = identity_pb2.identityData()

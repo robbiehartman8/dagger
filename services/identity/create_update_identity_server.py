@@ -23,18 +23,30 @@ class Identity(identity_pb2_grpc.IdentityServicer):
 
         reuqest_data = MessageToDict(request, preserving_proto_field_name=True)
         request_data = ServiceUtilities().cleanRequest(reuqest_data)
-        merge_statment = QueryUtilities().getMergeQuery(request_data, const.create_update_identity_query)
 
         if "hr_id" in request_data and request_data["hr_id"] != "":
+
+            primary_key = ServiceUtilities().getID("identity".lower(), request_data["hr_id"])
+            request_data["identity_id"] = primary_key
+            request_data["user_id"] = "rxh82f6"
+
+            request_data = ServiceUtilities().cleanRequest(reuqest_data)
+            merge_statment = QueryUtilities().getMergeQuery(request_data, const.create_update_identity_query)
+
             try:
                 curr = self.snowflake_connection.cursor()
                 curr.execute(merge_statment)
+                response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_success_message, const.create_update_required_attributes, request_data)
             except:
-                self.snowflake_connection = SnowflakeConnetion().getConnection()
-                curr = self.snowflake_connection.cursor()
-                results = curr.execute(merge_statment)
+                try:
+                    self.snowflake_connection = SnowflakeConnetion().getConnection()
+                    curr = self.snowflake_connection.cursor()
+                    results = curr.execute(merge_statment)
+                    response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_success_message, const.create_update_required_attributes, request_data)
+                except:
+                    response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_fail_message, const.create_update_required_attributes, request_data)
 
-        response_data = identity_pb2.identityData(**request_data)
+        response_data = identity_pb2.hrDataMessage(**response_data)
 
         return response_data
 

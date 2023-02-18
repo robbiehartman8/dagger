@@ -16,9 +16,9 @@ def createUpdateIdentity():
     with grpc.insecure_channel('localhost:50051') as channel:
         stub = identity_pb2_grpc.IdentityStub(channel)
         response = stub.createUpdateIdentity(identity_pb2.hrData(
-            hr_id='293',
-            legal_first_name='23',
-            legal_last_name=''
+            hr_id='29393939393',
+            legal_first_name='robert',
+            legal_last_name='hartman'
         ))
 
     print(response)
