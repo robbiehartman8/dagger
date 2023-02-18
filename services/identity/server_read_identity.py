@@ -5,6 +5,7 @@ from identity_pb2 import identityData
 import identity_pb2_grpc
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
+sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/identity")
 from snowflake_connection_utilities import SnowflakeConnetion
 from query_utilities import QueryUtilities
 from snowflake.connector import DictCursor

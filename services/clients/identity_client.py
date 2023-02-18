@@ -1,3 +1,7 @@
+import sys
+sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
+sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/identity")
+
 import grpc
 import identity_pb2
 import identity_pb2_grpc
