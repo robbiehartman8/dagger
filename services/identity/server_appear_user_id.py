@@ -21,9 +21,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         self.service_attributes = list(getUserId.DESCRIPTOR.fields_by_name.keys())
         self.select_attributes = QueryUtilities().getSelectQuery(self.service_attributes)
 
-    def readIdentity(self, request, context):
-
-        print(request)
+    def appearUserId(self, request, context):
 
         if request.identity_id != "":
             read_query = const.read_identity_query.format(self.select_attributes, "identity_id", request.identity_id)
@@ -39,12 +37,14 @@ class Identity(identity_pb2_grpc.IdentityServicer):
                 curr = self.snowflake_connection.cursor(DictCursor)
                 results = curr.execute(read_query).fetchall()
 
-            print(results)
-
         else:
-            response_data = identity_pb2.userIdMessage()
+            response_data = identity_pb2.userId()
 
-        response_data = identity_pb2.userIdMessage(**results)
+        print(results[0])
+
+        results = {'identity_id': 'test', 'user_id': '7373', 'status_message': 'Success'}
+
+        response_data = identity_pb2.userId(**results)
 
         return response_data
 
