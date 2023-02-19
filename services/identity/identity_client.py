@@ -1,7 +1,3 @@
-import sys
-sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
-sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/identity")
-
 import grpc
 import identity_pb2
 import identity_pb2_grpc
@@ -27,5 +23,14 @@ def createUpdateIdentity():
 
     print(response)
 
+def appearUserIdClient():
+    with grpc.insecure_channel('localhost:50051') as channel:
+        stub = identity_pb2_grpc.IdentityStub(channel)
+        response = stub.appearUserId(identity_pb2.getUserId(
+            identity_id='fe1fa635d557855ae678d7081ac1ab24'
+        ))
+
+    print(response)
+
 if __name__ == '__main__':
-    createUpdateIdentity()
+    appearUserIdClient()

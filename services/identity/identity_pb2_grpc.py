@@ -29,6 +29,11 @@ class IdentityStub(object):
                 request_serializer=identity__pb2.deleteData.SerializeToString,
                 response_deserializer=identity__pb2.deleteMessage.FromString,
                 )
+        self.appearUserId = channel.unary_unary(
+                '/Identity/appearUserId',
+                request_serializer=identity__pb2.getUserId.SerializeToString,
+                response_deserializer=identity__pb2.userId.FromString,
+                )
 
 
 class IdentityServicer(object):
@@ -52,6 +57,12 @@ class IdentityServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def appearUserId(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_IdentityServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -69,6 +80,11 @@ def add_IdentityServicer_to_server(servicer, server):
                     servicer.deleteIdentity,
                     request_deserializer=identity__pb2.deleteData.FromString,
                     response_serializer=identity__pb2.deleteMessage.SerializeToString,
+            ),
+            'appearUserId': grpc.unary_unary_rpc_method_handler(
+                    servicer.appearUserId,
+                    request_deserializer=identity__pb2.getUserId.FromString,
+                    response_serializer=identity__pb2.userId.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -128,5 +144,22 @@ class Identity(object):
         return grpc.experimental.unary_unary(request, target, '/Identity/deleteIdentity',
             identity__pb2.deleteData.SerializeToString,
             identity__pb2.deleteMessage.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def appearUserId(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Identity/appearUserId',
+            identity__pb2.getUserId.SerializeToString,
+            identity__pb2.userId.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

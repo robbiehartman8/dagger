@@ -1,7 +1,7 @@
 from concurrent import futures
 import grpc
 import identity_pb2
-from identity_pb2 import identityData
+from identity_pb2 import getUserId
 import identity_pb2_grpc
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
@@ -18,17 +18,19 @@ class Identity(identity_pb2_grpc.IdentityServicer):
     def __init__(self):
         self.snowflake_connection = SnowflakeConnetion().getConnection()
         self.service_util = ServiceUtilities()
-        self.service_attributes = list(identityData.DESCRIPTOR.fields_by_name.keys())
+        self.service_attributes = list(getUserId.DESCRIPTOR.fields_by_name.keys())
         self.select_attributes = QueryUtilities().getSelectQuery(self.service_attributes)
 
     def readIdentity(self, request, context):
 
-        if request.hr_id != "":
-            read_query = const.read_identity_query.format(self.select_attributes, "hr_id", request.hr_id)
-        elif request.identity_id != "":
-            read_query = const.read_identity_query.format(self.select_attributes, "identity_id", request.identity_id)
+        print(request)
 
-        if request.hr_id != "" or request.identity_id != "":
+        if request.identity_id != "":
+            read_query = const.read_identity_query.format(self.select_attributes, "identity_id", request.identity_id)
+        elif request.user_id != "":
+            read_query = const.read_identity_query.format(self.select_attributes, "user_id", request.user_id)
+
+        if request.identity_id != "" or request.user_id != "":
             try:
                 curr = self.snowflake_connection.cursor(DictCursor)
                 results = curr.execute(read_query).fetchall()
@@ -37,14 +39,12 @@ class Identity(identity_pb2_grpc.IdentityServicer):
                 curr = self.snowflake_connection.cursor(DictCursor)
                 results = curr.execute(read_query).fetchall()
 
-            try:
-                results = results[0]
-                response = self.service_util.getReadResponse(self.service_attributes, results)
-                response_data = identity_pb2.identityData(**response)
-            except:
-                response_data = identity_pb2.identityData()
+            print(results)
+
         else:
-            response_data = identity_pb2.identityData()
+            response_data = identity_pb2.userIdMessage()
+
+        response_data = identity_pb2.userIdMessage(**results)
 
         return response_data
 
