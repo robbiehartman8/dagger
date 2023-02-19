@@ -27,7 +27,10 @@ def appearUserIdClient():
     with grpc.insecure_channel('localhost:50051') as channel:
         stub = identity_pb2_grpc.IdentityStub(channel)
         response = stub.appearUserId(identity_pb2.getUserId(
-            identity_id='fe1fa635d557855ae678d7081ac1ab24'
+            identity_id='fe1fa635d557855ae678d7081ac1ab245',
+            first_name="robert",
+            middle_name="maurice",
+            last_name="hartman"
         ))
 
     print(response)

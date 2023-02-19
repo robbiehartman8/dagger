@@ -2,6 +2,7 @@ from concurrent import futures
 import grpc
 import identity_pb2
 from identity_pb2 import getUserId
+from identity_pb2 import userId
 import identity_pb2_grpc
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
@@ -10,41 +11,39 @@ from query_utilities import QueryUtilities
 from snowflake.connector import DictCursor
 from service_utilities import ServiceUtilities
 import identity_constants as const
-
-# TODO: do all of this
+from identity_utilities import IdentityUtilities
 
 class Identity(identity_pb2_grpc.IdentityServicer):
 
     def __init__(self):
         self.snowflake_connection = SnowflakeConnetion().getConnection()
         self.service_util = ServiceUtilities()
-        self.service_attributes = list(getUserId.DESCRIPTOR.fields_by_name.keys())
-        self.select_attributes = QueryUtilities().getSelectQuery(self.service_attributes)
+        self.request_attributes = []
+
+        self.request_attributes.append("identity_id")
+        self.request_attributes.append("user_id")
+
+        self.response_attributes = list(userId.DESCRIPTOR.fields_by_name.keys())
+        self.select_attributes = QueryUtilities().getSelectQuery(self.request_attributes)
 
     def appearUserId(self, request, context):
-
+            
         if request.identity_id != "":
             read_query = const.read_identity_query.format(self.select_attributes, "identity_id", request.identity_id)
-        elif request.user_id != "":
-            read_query = const.read_identity_query.format(self.select_attributes, "user_id", request.user_id)
+            results = QueryUtilities().getSelectData(read_query, self.snowflake_connection)
 
-        if request.identity_id != "" or request.user_id != "":
             try:
-                curr = self.snowflake_connection.cursor(DictCursor)
-                results = curr.execute(read_query).fetchall()
+                results = results[0]
+                results["status_message"] = "Success: user lookup"
+                response = self.service_util.getReadResponse(self.response_attributes, results)
             except:
-                self.snowflake_connection = SnowflakeConnetion().getConnection()
-                curr = self.snowflake_connection.cursor(DictCursor)
-                results = curr.execute(read_query).fetchall()
+                user_id = IdentityUtilities().getUserId(self.snowflake_connection, request.first_name, request.middle_name, request.last_name, const.read_user_id_query)
+                response = {'identity_id': request.identity_id, 'user_id': user_id, 'status_message': 'Success: new user_id'}
 
         else:
-            response_data = identity_pb2.userId()
+            response = {'status_message': 'Failed: Did not pass identity_id'}
 
-        print(results[0])
-
-        results = {'identity_id': 'test', 'user_id': '7373', 'status_message': 'Success'}
-
-        response_data = identity_pb2.userId(**results)
+        response_data = identity_pb2.userId(**response)
 
         return response_data
 

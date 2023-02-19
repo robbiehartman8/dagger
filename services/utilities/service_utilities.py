@@ -21,7 +21,7 @@ class ServiceUtilities:
         response["status_message"] = message
         return response
 
-    def cleanRequest(self, reuqest_data):
+    def cleanCreateUpdateRequest(self, reuqest_data):
         for key, value in list(reuqest_data.items()):
             if value == '':
                 del data[key]

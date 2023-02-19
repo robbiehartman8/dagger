@@ -28,10 +28,15 @@ class Identity(identity_pb2_grpc.IdentityServicer):
 
             primary_key = ServiceUtilities().getID("identity".lower(), request_data["hr_id"])
             request_data["identity_id"] = primary_key
+
+            # pref name checker
+
             request_data["user_id"] = "rxh82f6"
 
-            request_data = ServiceUtilities().cleanRequest(reuqest_data)
+            request_data = ServiceUtilities().cleanCreateUpdateRequest(reuqest_data)
             merge_statment = QueryUtilities().getMergeQuery(request_data, const.create_update_identity_query)
+
+            # TODO: put the merge statement in the utilities
 
             try:
                 curr = self.snowflake_connection.cursor()

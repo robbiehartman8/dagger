@@ -2,6 +2,7 @@ from concurrent import futures
 import grpc
 import identity_pb2
 from identity_pb2 import identityData
+from identity_pb2 import readData
 import identity_pb2_grpc
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
@@ -16,8 +17,9 @@ class Identity(identity_pb2_grpc.IdentityServicer):
     def __init__(self):
         self.snowflake_connection = SnowflakeConnetion().getConnection()
         self.service_util = ServiceUtilities()
-        self.service_attributes = list(identityData.DESCRIPTOR.fields_by_name.keys())
-        self.select_attributes = QueryUtilities().getSelectQuery(self.service_attributes)
+        self.request_attributes = list(readData.DESCRIPTOR.fields_by_name.keys())
+        self.response_attributes = list(identityData.DESCRIPTOR.fields_by_name.keys())
+        self.select_attributes = QueryUtilities().getSelectQuery(self.response_attributes)
 
     def readIdentity(self, request, context):
 
@@ -27,17 +29,10 @@ class Identity(identity_pb2_grpc.IdentityServicer):
             read_query = const.read_identity_query.format(self.select_attributes, "identity_id", request.identity_id)
 
         if request.hr_id != "" or request.identity_id != "":
-            try:
-                curr = self.snowflake_connection.cursor(DictCursor)
-                results = curr.execute(read_query).fetchall()
-            except:
-                self.snowflake_connection = SnowflakeConnetion().getConnection()
-                curr = self.snowflake_connection.cursor(DictCursor)
-                results = curr.execute(read_query).fetchall()
-
+            results = QueryUtilities().getSelectData(read_query, self.snowflake_connection)
             try:
                 results = results[0]
-                response = self.service_util.getReadResponse(self.service_attributes, results)
+                response = self.service_util.getReadResponse(self.response_attributes, results)
                 response_data = identity_pb2.identityData(**response)
             except:
                 response_data = identity_pb2.identityData()

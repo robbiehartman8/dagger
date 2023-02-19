@@ -11,3 +11,12 @@ snowflake_config = {
     "warehouse_key": "snowflake-warehouse",
     "database_key": "snowflake-database"
 }
+
+# ["firstinitial-lastname-number"], ["random", length_of_username], ["firstname-middleinitial-lastname-number"]
+username_generator_config = {
+    "username_generator": ["firstname-middleinitial-lastname-number"]
+}
+
+company_email = {
+    "email_ending": "hartmancorp.com"
+}
