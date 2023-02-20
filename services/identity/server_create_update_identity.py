@@ -12,6 +12,10 @@ connector.paramstyle='qmark'
 import identity_constants as const
 from service_utilities import ServiceUtilities
 from query_utilities import QueryUtilities
+from identity_utilities import IdentityUtilities
+from call_services_utilities import CallServices
+# import ports
+from config_utilities import service_ports
 
 
 class Identity(identity_pb2_grpc.IdentityServicer):
@@ -22,16 +26,24 @@ class Identity(identity_pb2_grpc.IdentityServicer):
     def createUpdateIdentity(self, request, context):        
 
         reuqest_data = MessageToDict(request, preserving_proto_field_name=True)
-        request_data = ServiceUtilities().cleanRequest(reuqest_data)
+        request_data = ServiceUtilities().cleanCreateUpdateRequest(reuqest_data)
 
         if "hr_id" in request_data and request_data["hr_id"] != "":
 
-            primary_key = ServiceUtilities().getID("identity".lower(), request_data["hr_id"])
+            primary_key = ServiceUtilities().getID("identity", request_data["hr_id"])
             request_data["identity_id"] = primary_key
 
-            # pref name checker
+            legal_name_list = IdentityUtilities().cleanName(request.legal_first_name, request.legal_middle_name, request.legal_last_name)
+            preferred_name_list = IdentityUtilities().cleanName(request.preferred_first_name, request.preferred_middle_name, request.preferred_last_name)
 
-            request_data["user_id"] = "rxh82f6"
+            name_status, name_list = IdentityUtilities().checkNameStatus(legal_name_list, preferred_name_list)
+
+            get_user_id_request = {"identity_id": request_data["identity_id"], "first_name": name_list[0], "middle_name": name_list[1], "last_name": name_list[2]}
+
+            user_id_response = CallServices().callAppearUserId("localhost", service_ports["appearUserId"], get_user_id_request)
+
+            request_data["user_id"] = user_id_response.user_id
+            request_data["use_preferred_name"] = name_status
 
             request_data = ServiceUtilities().cleanCreateUpdateRequest(reuqest_data)
             merge_statment = QueryUtilities().getMergeQuery(request_data, const.create_update_identity_query)
@@ -58,6 +70,6 @@ class Identity(identity_pb2_grpc.IdentityServicer):
 if __name__ == '__main__':
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
     identity_pb2_grpc.add_IdentityServicer_to_server(Identity(), server)
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port(f'[::]:{service_ports["createUpdateIdentity"]}')
     server.start()
     server.wait_for_termination()

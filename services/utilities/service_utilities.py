@@ -31,5 +31,3 @@ class ServiceUtilities:
         concat = table.strip() + value.strip()
         md5 = hashlib.md5(concat.encode()).hexdigest()
         return md5
-
-    

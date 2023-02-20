@@ -20,3 +20,10 @@ username_generator_config = {
 company_email = {
     "email_ending": "hartmancorp.com"
 }
+
+service_ports = {
+    "createUpdateIdentity": "50051",
+    "readIdentity": "50052",
+    "deleteIdentity": "50053",
+    "appearUserId": "50054"
+}

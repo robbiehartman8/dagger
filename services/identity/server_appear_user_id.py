@@ -12,6 +12,8 @@ from snowflake.connector import DictCursor
 from service_utilities import ServiceUtilities
 import identity_constants as const
 from identity_utilities import IdentityUtilities
+# import ports
+from config_utilities import service_ports
 
 class Identity(identity_pb2_grpc.IdentityServicer):
 
@@ -50,6 +52,6 @@ class Identity(identity_pb2_grpc.IdentityServicer):
 if __name__ == '__main__':
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
     identity_pb2_grpc.add_IdentityServicer_to_server(Identity(), server)
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port(f'[::]:{service_ports["appearUserId"]}')
     server.start()
     server.wait_for_termination()

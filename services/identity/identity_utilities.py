@@ -9,8 +9,7 @@ import re
 
 class IdentityUtilities:
 
-    def getUserId(self, snowflake_connection, first_name, middle_name, last_name, query):
-        
+    def cleanName(self, first_name, middle_name, last_name):
         first_name = first_name.strip().lower()
         first_name = re.sub(r'[^a-zA-Z0-9]', '', first_name)
         middle_name = middle_name.strip().lower()
@@ -18,7 +17,9 @@ class IdentityUtilities:
         last_name = last_name.strip().lower()
         last_name = re.sub(r'[^a-zA-Z0-9]', '', last_name)
 
-        print(first_name, middle_name, last_name)
+        return [first_name, middle_name, last_name]
+
+    def getUserId(self, snowflake_connection, first_name, middle_name, last_name, query):
 
         if username_generator_config["username_generator"][0] == "firstinitial-lastname-number":
             if len(first_name) > 0 and first_name.isalnum():
@@ -72,4 +73,13 @@ class IdentityUtilities:
         
         return user_id
 
-        
+    def checkNameStatus(self, legal_name_list, preferred_name_list):
+        name_status = False
+        for i in zip(legal_name_list, preferred_name_list):
+            if i[0] != i[1]:
+                name_status = True
+                break
+        if name_status is True:
+            return name_status, preferred_name_list
+        else:
+            return name_status, legal_name_list
