@@ -32,7 +32,14 @@ class QueryUtilities:
                 snowflake_connection = SnowflakeConnetion().getConnection()
         return results
 
-
+    def enterCreateOrUpdateData(self, snowflake_connection, merge_statement):
+        while True:
+            try:
+                curr = snowflake_connection.cursor()
+                curr.execute(merge_statement)
+                break
+            except:
+                snowflake_connection = SnowflakeConnetion().getConnection()
 
 
     

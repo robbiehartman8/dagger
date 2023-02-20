@@ -50,7 +50,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         return response_data
 
 if __name__ == '__main__':
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     identity_pb2_grpc.add_IdentityServicer_to_server(Identity(), server)
     server.add_insecure_port(f'[::]:{service_ports["appearUserId"]}')
     server.start()

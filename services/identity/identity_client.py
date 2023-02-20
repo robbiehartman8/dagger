@@ -19,16 +19,16 @@ def readIdentity():
 
 
 
-def createUpdateIdentity():
+def createUpdateIdentity(hr_id_number):
     with grpc.insecure_channel('localhost:50051') as channel:
         stub = identity_pb2_grpc.IdentityStub(channel)
         response = stub.createUpdateIdentity(identity_pb2.hrData(
-            hr_id='2939393939345671',
+            hr_id=hr_id_number,
             legal_first_name='robert',
             legal_middle_name='maurice',
             legal_last_name='hartman',
-            preferred_first_name='robert',
-            preferred_middle_name='maurice',
+            preferred_first_name='rob',
+            preferred_middle_name='',
             preferred_last_name='hartman',
         ))
 
@@ -47,4 +47,5 @@ def appearUserIdClient():
     print(response)
 
 if __name__ == '__main__':
-    createUpdateIdentity()
+    for i in range(40):
+        createUpdateIdentity(str(i+1000))

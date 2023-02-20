@@ -23,7 +23,7 @@ class ServiceUtilities:
 
     def cleanCreateUpdateRequest(self, reuqest_data):
         for key, value in list(reuqest_data.items()):
-            if value == '':
+            if value == "":
                 del data[key]
         return reuqest_data
 
