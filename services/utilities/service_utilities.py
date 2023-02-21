@@ -14,18 +14,22 @@ class ServiceUtilities:
                 response[key] = ""
         return response
 
+    def cleanCreateUpdateRequest(self, request_data, request_attributes):
+        for attribute in request_attributes:
+            if attribute in request_data and request_data[attribute] == "":
+                request_data[attribute] = None
+            elif attribute in request_data and request_data[attribute] != "":
+                pass
+            else:
+                request_data[attribute] = None
+        return request_data
+
     def getCreateUpdateResponse(self, message, attributes, request_data):
         response = {}
         for attribute in attributes:
             response[attribute] = request_data[attribute]
         response["status_message"] = message
         return response
-
-    def cleanCreateUpdateRequest(self, reuqest_data):
-        for key, value in list(reuqest_data.items()):
-            if value == "":
-                del data[key]
-        return reuqest_data
 
     def getID(self, table, value):
         concat = table.strip() + value.strip()

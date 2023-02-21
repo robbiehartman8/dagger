@@ -9,15 +9,14 @@ import re
 
 class IdentityUtilities:
 
-    def cleanName(self, first_name, middle_name, last_name):
-        first_name = first_name.strip().lower()
-        first_name = re.sub(r'[^a-zA-Z0-9]', '', first_name)
-        middle_name = middle_name.strip().lower()
-        middle_name = re.sub(r'[^a-zA-Z0-9]', '', middle_name)
-        last_name = last_name.strip().lower()
-        last_name = re.sub(r'[^a-zA-Z0-9]', '', last_name)
+    def cleanName(self, name_list):
+        # change to have special characters later
+        for index in range(len(name_list)):
+            name = name_list[index].strip().lower()
+            name = re.sub(r'[^a-zA-Z0-9]', '', name)
+            name_list[index] = name
 
-        return [first_name, middle_name, last_name]
+        return name_list[0:3], name_list[3:]
 
     def getUserId(self, snowflake_connection, first_name, middle_name, last_name, query):
 

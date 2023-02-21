@@ -16,9 +16,13 @@ class QueryUtilities:
         columns_statement = ""
         value_count_stament = ""
         for key, value in list(reuqest_data.items()):
-            set_statement = set_statement + f"i.{key} = '{value}', "
+            if value is None:
+                set_statement = set_statement + f"i.{key} = NULL, "
+                value_count_stament = value_count_stament + "NULL, "
+            else:
+                set_statement = set_statement + f"i.{key} = '{value}', "
+                value_count_stament = value_count_stament + f"'{value}', "
             columns_statement = columns_statement + f"{key}, "
-            value_count_stament = value_count_stament + f"'{value}', "
         merge_statement = merge_statement.format(reuqest_data["hr_id"], set_statement[:-2], columns_statement[:-2], value_count_stament[:-2])
         return merge_statement
 
@@ -40,6 +44,8 @@ class QueryUtilities:
                 break
             except:
                 snowflake_connection = SnowflakeConnetion().getConnection()
+
+
 
 
     

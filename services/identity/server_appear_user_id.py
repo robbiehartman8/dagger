@@ -1,8 +1,7 @@
 from concurrent import futures
 import grpc
 import identity_pb2
-from identity_pb2 import getUserId
-from identity_pb2 import userId
+from identity_pb2 import getUserId, userId
 import identity_pb2_grpc
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")

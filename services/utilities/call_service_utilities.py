@@ -7,7 +7,7 @@ import grpc
 import identity_pb2
 import identity_pb2_grpc
 
-class CallServices:
+class CallService:
 
     def callAppearUserId(self, host, port, request_dict):
         with grpc.insecure_channel(f"{host}:{port}") as channel:
