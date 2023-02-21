@@ -23,17 +23,17 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         self.service_util = ServiceUtilities()
         self.request_attributes = list(readData.DESCRIPTOR.fields_by_name.keys())
         self.response_attributes = list(identityData.DESCRIPTOR.fields_by_name.keys())
-        self.select_attributes = QueryUtilities().getSelectQuery(self.response_attributes)
+        self.select_attributes = QueryUtilities().createSelectStatement(self.response_attributes)
 
     def readIdentity(self, request, context):
 
         if request.hr_id != "":
-            read_query = const.read_identity_query.format(self.select_attributes, "hr_id", request.hr_id)
+            select_statement = const.read_identity_query.format(self.select_attributes, "hr_id", request.hr_id)
         elif request.identity_id != "":
-            read_query = const.read_identity_query.format(self.select_attributes, "identity_id", request.identity_id)
+            select_statement = const.read_identity_query.format(self.select_attributes, "identity_id", request.identity_id)
 
         if request.hr_id != "" or request.identity_id != "":
-            results = QueryUtilities().getSelectData(read_query, self.snowflake_connection)
+            results = QueryUtilities().executeSelect(select_statement, self.snowflake_connection)
             try:
                 results = results[0]
                 response = self.service_util.getReadResponse(self.response_attributes, results)

@@ -5,13 +5,13 @@ from snowflake.connector import DictCursor
 
 class QueryUtilities:
 
-    def getSelectQuery(self, attribute_list):
+    def createSelectStatement(self, attribute_list):
         select = ""
         for attribute in attribute_list:
             select = select + f"{attribute}::string as {attribute.replace(':', '_')},"
         return select[:-1]
 
-    def getMergeQuery(self, reuqest_data, merge_statement):
+    def createMergeStatement(self, reuqest_data, merge_statement):
         set_statement = ""
         columns_statement = ""
         value_count_stament = ""
@@ -26,7 +26,7 @@ class QueryUtilities:
         merge_statement = merge_statement.format(reuqest_data["hr_id"], set_statement[:-2], columns_statement[:-2], value_count_stament[:-2])
         return merge_statement
 
-    def getSelectData(self, read_query, snowflake_connection):
+    def executeSelect(self, select_statement, snowflake_connection):
         while True:
             try:
                 curr = snowflake_connection.cursor(DictCursor)
@@ -36,7 +36,7 @@ class QueryUtilities:
                 snowflake_connection = SnowflakeConnetion().getConnection()
         return results
 
-    def enterCreateOrUpdateData(self, snowflake_connection, merge_statement):
+    def executeMerge(self, merge_statement, snowflake_connection):
         while True:
             try:
                 curr = snowflake_connection.cursor()

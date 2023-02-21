@@ -43,8 +43,8 @@ class Identity(identity_pb2_grpc.IdentityServicer):
 
                 request_data["user_id"] = 'rxh82f6'
 
-                merge_statement = QueryUtilities().getMergeQuery(request_data, const.create_update_identity_query)
-                # QueryUtilities().enterCreateOrUpdateData(self.snowflake_connection, merge_statement)
+                merge_statement = QueryUtilities().createMergeStatement(request_data, const.create_update_identity_query)
+                # QueryUtilities().executeMerge(merge_statement, self.snowflake_connection)
                         
                 response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_success_message, self.reponse_attributes, request_data)       
         except:

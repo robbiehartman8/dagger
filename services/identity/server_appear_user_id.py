@@ -22,13 +22,13 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         self.snowflake_connection = SnowflakeConnetion().getConnection()
         self.request_attributes = ["identity_id", "user_id"]
         self.response_attributes = list(userId.DESCRIPTOR.fields_by_name.keys())
-        self.select_attributes = QueryUtilities().getSelectQuery(self.request_attributes)
+        self.select_attributes = QueryUtilities().createSelectStatement(self.request_attributes)
 
     def appearUserId(self, request, context):
             
         if request.identity_id != "":
-            read_query = const.read_identity_query.format(self.select_attributes, "identity_id", request.identity_id)
-            results = QueryUtilities().getSelectData(read_query, self.snowflake_connection)
+            select_statement = const.read_identity_query.format(self.select_attributes, "identity_id", request.identity_id)
+            results = QueryUtilities().executeSelect(select_statement, self.snowflake_connection)
             try:
                 results = results[0]
                 results["status_message"] = const.appear_userid_lookup_success_message
