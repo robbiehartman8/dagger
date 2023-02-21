@@ -32,7 +32,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         try:
             if request_data["hr_id"] != "":
 
-                request_data["identity_id"] = ServiceUtilities().getID("identity", request_data["hr_id"])
+                request_data["identity_id"] = ServiceUtilities().getTablePK("identity", request_data["hr_id"])
 
                 legal_name_list, preferred_name_list = IdentityUtilities().cleanName([request.legal_first_name, request.legal_middle_name, request.legal_last_name, request.preferred_first_name, request.preferred_middle_name, request.preferred_last_name])
                 name_status, name_list = IdentityUtilities().checkNameStatus(legal_name_list, preferred_name_list)

@@ -33,7 +33,7 @@ class ServiceUtilities:
                 response[attribute] = request_data[attribute]
         return response
 
-    def getID(self, table, value):
-        concat = table.strip() + value.strip()
+    def getTablePK(self, table, value):
+        concat = table.strip().lower() + value.strip().lower()
         md5 = hashlib.md5(concat.encode()).hexdigest()
         return md5
