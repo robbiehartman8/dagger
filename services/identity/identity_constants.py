@@ -22,7 +22,6 @@ from identity.identity
 where user_id like '{0}%'
 """
 
-create_update_required_attributes_success = ["identity_id", "hr_id", "user_id"]
 create_update_required_attributes_failed = []
 
 create_update_success_message = "Success: Identity created or updated."

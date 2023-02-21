@@ -2,7 +2,7 @@
 from concurrent import futures
 import grpc
 import identity_pb2
-from identity_pb2 import hrData
+from identity_pb2 import hrData, hrDataMessage
 import identity_pb2_grpc
 from google.protobuf.json_format import MessageToDict
 # take out with docker
@@ -22,6 +22,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
     def __init__(self):
         # self.snowflake_connection = SnowflakeConnetion().getConnection()
         self.request_attributes = list(hrData.DESCRIPTOR.fields_by_name.keys())
+        self.reponse_attributes = list(hrDataMessage.DESCRIPTOR.fields_by_name.keys())
 
     def createUpdateIdentity(self, request, context):        
 
@@ -45,9 +46,9 @@ class Identity(identity_pb2_grpc.IdentityServicer):
                 merge_statement = QueryUtilities().getMergeQuery(request_data, const.create_update_identity_query)
                 # QueryUtilities().enterCreateOrUpdateData(self.snowflake_connection, merge_statement)
                         
-                response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_success_message, const.create_update_required_attributes_success, request_data)       
+                response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_success_message, self.reponse_attributes, request_data)       
         except:
-            response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_fail_message, const.create_update_required_attributes_failed, request_data)
+            response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_fail_message, ["status_message"], request_data)
 
         response_data = identity_pb2.hrDataMessage(**response_data)
 

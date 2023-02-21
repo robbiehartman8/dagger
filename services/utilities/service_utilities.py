@@ -27,8 +27,10 @@ class ServiceUtilities:
     def getCreateUpdateResponse(self, message, attributes, request_data):
         response = {}
         for attribute in attributes:
-            response[attribute] = request_data[attribute]
-        response["status_message"] = message
+            if attribute == "status_message":
+                response["status_message"] = message
+            else:
+                response[attribute] = request_data[attribute]
         return response
 
     def getID(self, table, value):
