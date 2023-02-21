@@ -18,7 +18,7 @@ class IdentityUtilities:
 
         return name_list[0:3], name_list[3:]
 
-    def getUserId(self, snowflake_connection, first_name, middle_name, last_name, query):
+    def generateUserId(self, snowflake_connection, first_name, middle_name, last_name, query):
 
         if username_generator_config["username_generator"][0] == "firstinitial-lastname-number":
             if len(first_name) > 0 and first_name.isalnum():

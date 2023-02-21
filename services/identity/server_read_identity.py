@@ -1,16 +1,20 @@
+# import python libs
 from concurrent import futures
 import grpc
 import identity_pb2
-from identity_pb2 import identityData
-from identity_pb2 import readData
+from identity_pb2 import identityData, readData
 import identity_pb2_grpc
+# take out with docker
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
+# import custom libs
 from snowflake_connection_utilities import SnowflakeConnetion
 from query_utilities import QueryUtilities
 from snowflake.connector import DictCursor
 from service_utilities import ServiceUtilities
 import identity_constants as const
+from identity_utilities import IdentityUtilities
+from config_utilities import service_ports
 
 class Identity(identity_pb2_grpc.IdentityServicer):
 
@@ -41,9 +45,9 @@ class Identity(identity_pb2_grpc.IdentityServicer):
 
         return response_data
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
     identity_pb2_grpc.add_IdentityServicer_to_server(Identity(), server)
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port(f"[::]:{service_ports['readIdentity']}")
     server.start()
     server.wait_for_termination()

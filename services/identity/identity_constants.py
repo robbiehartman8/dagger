@@ -27,3 +27,7 @@ create_update_required_attributes_failed = []
 
 create_update_success_message = "Success: Identity created or updated."
 create_update_fail_message = "Failed: Something went wrong trying to create or update the identity. Make sure you have the hr_id in the request."
+
+appear_userid_lookup_success_message = "Success: user lookup complete"
+
+appear_userid_generate_success_message = "Success: new user_id generated"
