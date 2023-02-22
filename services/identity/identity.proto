@@ -43,8 +43,8 @@ message hrData {
     string phone_number_work_mobile = 15;
     string phone_number_home = 16;
     string phone_number_home_mobile = 17;
-    string email_work = 18;
-    string email_home = 19;
+    string email_work_primary = 18;
+    string email_home_primary = 19;
     string status = 20;
     string hire_start_date = 21;
     string termination_date = 22;

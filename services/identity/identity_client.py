@@ -2,11 +2,11 @@ import grpc
 import identity_pb2
 import identity_pb2_grpc
 
-def readIdentity():
-    with grpc.insecure_channel('localhost:50051') as channel:
+def readIdentity(hr_id_number):
+    with grpc.insecure_channel('localhost:50052') as channel:
         stub = identity_pb2_grpc.IdentityStub(channel)
         response = stub.readIdentity(identity_pb2.readData(
-            hr_id='29300'
+            hr_id=hr_id_number
             # identity_id="2839"
         ))
     
@@ -28,10 +28,10 @@ def createUpdateIdentity(hr_id_number):
     print(response)
 
 def appearUserIdClient():
-    with grpc.insecure_channel('localhost:50051') as channel:
+    with grpc.insecure_channel('localhost:50054') as channel:
         stub = identity_pb2_grpc.IdentityStub(channel)
         response = stub.appearUserId(identity_pb2.getUserId(
-            identity_id='fe1fa635d557855ae678d7081ac1ab245',
+            identity_id='skd',
             first_name="robert",
             middle_name="maurice",
             last_name="hartman"
@@ -40,4 +40,7 @@ def appearUserIdClient():
     print(response)
 
 if __name__ == '__main__':
-    createUpdateIdentity("1013")
+    hr_id = "100061"
+    createUpdateIdentity(hr_id)
+    readIdentity(hr_id)
+    # appearUserIdClient()

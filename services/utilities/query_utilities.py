@@ -26,24 +26,24 @@ class QueryUtilities:
         merge_statement = merge_statement.format(reuqest_data["hr_id"], set_statement[:-2], columns_statement[:-2], value_count_stament[:-2])
         return merge_statement
 
-    def executeSelect(self, select_statement, snowflake_connection):
+    def executeSelect(self, select_statement, snowflake_connection, logger):
         while True:
             try:
                 curr = snowflake_connection.cursor(DictCursor)
-                results = curr.execute(read_query).fetchall()
+                results = curr.execute(select_statement).fetchall()
                 break
             except:
-                snowflake_connection = SnowflakeConnetion().getConnection()
+                snowflake_connection = SnowflakeConnetion().getConnection(logger)
         return results
 
-    def executeMerge(self, merge_statement, snowflake_connection):
+    def executeMerge(self, merge_statement, snowflake_connection, logger):
         while True:
             try:
                 curr = snowflake_connection.cursor()
                 curr.execute(merge_statement)
                 break
             except:
-                snowflake_connection = SnowflakeConnetion().getConnection()
+                snowflake_connection = SnowflakeConnetion().getConnection(logger)
 
 
 

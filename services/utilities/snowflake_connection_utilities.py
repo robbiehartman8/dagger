@@ -4,8 +4,6 @@ from azure.identity import DefaultAzureCredential
 from config_utilities import keyvault_config
 from config_utilities import snowflake_config
 
-# TODO: fix the logging
-
 class SnowflakeConnetion:
     
     def __init__(self):
@@ -22,9 +20,10 @@ class SnowflakeConnetion:
         self.snow_warehouse = self.client.get_secret(snowflake_config["warehouse_key"]).value
         self.snow_database = self.client.get_secret(snowflake_config["database_key"]).value
 
-    def getConnection(self):
+    def getConnection(self, logger):
         try:
             conn = snowflake.connector.connect(user=self.snow_username, password=self.snow_password, account=self.snow_account, warehouse=self.snow_warehouse, database=self.snow_database)
+            logger.info("Connected to Azure and Snowflake")
             return conn
         except:
-            print('ERROR')
+            logger.critical("Did not connect to snowflake")

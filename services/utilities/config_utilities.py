@@ -27,3 +27,10 @@ service_ports = {
     "deleteIdentity": "50053",
     "appearUserId": "50054"
 }
+
+service_workers = {
+    "createUpdateIdentity": 15,
+    "readIdentity": 15,
+    "deleteIdentity": 10,
+    "appearUserId": 15
+}
