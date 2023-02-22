@@ -1,10 +1,12 @@
 # this file contains utilities for the identity services
+import sys
+sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
 
-from snowflake_connection_utilities import SnowflakeConnetion
 from snowflake.connector import DictCursor
 import random
 import string
 from config_utilities import username_generator_config
+from redis_utilities import RedisUtilities
 import re
 
 class IdentityUtilities:
@@ -18,58 +20,32 @@ class IdentityUtilities:
 
         return name_list[0:3], name_list[3:]
 
-    def generateUserId(self, snowflake_connection, first_name, middle_name, last_name, query, logger):
-
-        if username_generator_config["username_generator"][0] == "firstinitial-lastname-number":
-            if len(first_name) > 0 and first_name.isalnum():
-                first_initial = first_name[0:1]
-                user_name_format = f"{first_initial}{last_name}"
-            else: 
-                user_name_format = f"{last_name}"
-            while True:
-                try:
-                    curr = snowflake_connection.cursor(DictCursor)
-                    result = curr.execute(query.format(user_name_format)).fetchall()
-                    if result[0]["USER_ID_COUNT"] > 0:
-                        number = result[0]["USER_ID_COUNT"]
-                    else:
-                        number = ""
-                    user_id = f"{user_name_format}{number}"
-                    break
-                except:
-                    snowflake_connection = SnowflakeConnetion().getConnection(logger)
-
-        if username_generator_config["username_generator"][0] == "random":
-            while True:
-                try:
-                    curr = snowflake_connection.cursor(DictCursor)
-                    user_id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(username_generator_config["username_generator"][1]))
-                    result = curr.execute(query.format(user_id)).fetchone()
-                    if result[0]["USER_ID_COUNT"] == 0:
-                        break
-                except:
-                    snowflake_connection = SnowflakeConnetion().getConnection(logger)
-
+    def getUserId(self, redis_client, identity_id, first_name, middle_name, last_name, logger):
 
         if username_generator_config["username_generator"][0] == "firstname-middleinitial-lastname-number":
-            if len(middle_name) > 0 and middle_name.isalnum():
+            if len(middle_name) > 0:
                 middle_initial = middle_name[0:1]
                 user_name_format = f"{first_name}.{middle_initial}.{last_name}"
             else: 
                 user_name_format = f"{first_name}.{last_name}"
-            while True:
-                try:
-                    curr = snowflake_connection.cursor(DictCursor)
-                    result = curr.execute(query.format(user_name_format)).fetchall()
-                    if result[0]["USER_ID_COUNT"] > 0:
-                        number = str(result[0]["USER_ID_COUNT"])
+            number = 0
+            RedisUtilities().getRedisLock(redis_client, "grpc-username", 5)
+            user_id = redis_client.get(f"identity/{identity_id}")
+            if user_id is None:
+                while True:
+                    if number != 0:
+                        user_id = f"{user_name_format}{number}"
                     else:
-                        number = ""
-                    user_id = f"{user_name_format}{number}"
-                    break
-                except:
-                    snowflake_connection = SnowflakeConnetion().getConnection(logger)
-        
+                        user_id = f"{user_name_format}"
+
+                    if redis_client.get(f"user_id/{user_id}") is not None:
+                        pass
+                    else:
+                        redis_client.set(f"user_id/{user_id}", 1)
+                        redis_client.set(f"identity/{identity_id}", user_id)
+                        break
+                    number += 1
+            redis_client.delete("grpc-username")
         return user_id
 
     def checkNameStatus(self, legal_name_list, preferred_name_list):

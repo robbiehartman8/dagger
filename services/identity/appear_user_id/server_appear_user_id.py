@@ -19,6 +19,7 @@ from service_utilities import ServiceUtilities
 import identity_constants as const
 from identity_utilities import IdentityUtilities
 from config_utilities import service_ports, service_workers
+from redis_utilities import RedisUtilities
 
 class Identity(identity_pb2_grpc.IdentityServicer):
 
@@ -26,7 +27,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
 
-        self.snowflake_connection = SnowflakeConnetion().getConnection(self.logger)
+        self.redis_client = RedisUtilities().getRedisClient("localhost", 6379, 0, self.logger)
         self.request_attributes = ["identity_id", "user_id"]
         self.response_attributes = list(userId.DESCRIPTOR.fields_by_name.keys())
         self.select_attributes = QueryUtilities().createSelectStatement(self.request_attributes)
@@ -34,18 +35,11 @@ class Identity(identity_pb2_grpc.IdentityServicer):
     def appearUserId(self, request, context):
             
         if request.identity_id != "":
-            select_statement = const.read_identity_query.format(self.select_attributes, "identity_id", request.identity_id)
-            results = QueryUtilities().executeSelect(select_statement, self.snowflake_connection, self.logger)
-            try:
-                results = results[0]
-                results["status_message"] = const.appear_userid_lookup_success_message
-                response = ServiceUtilities().getReadResponse(self.response_attributes, results)
-            except:
-                response = {
-                    "identity_id": request.identity_id, 
-                    "user_id": IdentityUtilities().generateUserId(self.snowflake_connection, request.first_name, request.middle_name, request.last_name, const.read_user_id_query, self.logger), 
-                    "status_message": const.appear_userid_generate_success_message
-                }
+            response = {
+                "identity_id": request.identity_id, 
+                "user_id": IdentityUtilities().getUserId(self.redis_client, request.identity_id, request.first_name, request.middle_name, request.last_name, self.logger),
+                "status_message": const.appear_userid_generate_success_message
+            }
         else:
             response = {
                 "status_message": "Failed: did not pass identity_id"

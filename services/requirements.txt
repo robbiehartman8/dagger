@@ -3,3 +3,4 @@ grpcio
 snowflake-connector-python
 azure-identity
 azure-keyvault
+redis
