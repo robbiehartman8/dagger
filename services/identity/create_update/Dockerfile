@@ -5,7 +5,7 @@ FROM python:3.9.12
 RUN apt-get update
 RUN apt-get install azure-cli -y
 
-RUN az login --service-principal -u "811a978e-8e50-4570-ade7-d991fd0f1128" -p "key" --tenant "4a5aa09d-9d1d-4f04-a983-271892a66895"
+RUN az login --service-principal -u "811a978e-8e50-4570-ade7-d991fd0f1128" -p "jF08Q~5aFHJTaInT8aWjhULkIrSzUHhri.hYvbeU" --tenant "4a5aa09d-9d1d-4f04-a983-271892a66895"
 
 # Copy requirements document file into image
 COPY ./services/requirements.txt /app/requirements.txt
