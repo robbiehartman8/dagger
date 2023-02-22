@@ -27,7 +27,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
 
-        self.redis_client = RedisUtilities().getRedisClient("localhost", 6379, 0, self.logger)
+        self.redis_client = RedisUtilities().getRedisClient("redis-stack", 6379, 0, self.logger)
         self.request_attributes = ["identity_id", "user_id"]
         self.response_attributes = list(userId.DESCRIPTOR.fields_by_name.keys())
         self.select_attributes = QueryUtilities().createSelectStatement(self.request_attributes)

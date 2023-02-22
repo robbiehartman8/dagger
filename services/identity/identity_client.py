@@ -25,7 +25,7 @@ def createUpdateIdentity(star, stop):
                 legal_middle_name='maurice',
                 legal_last_name='hartman',
                 preferred_first_name='robert',
-                preferred_middle_name='maurice',
+                preferred_middle_name='',
                 preferred_last_name='hartman',
                 job_title_code='ceng',
                 job_title_description='chief engineer',
@@ -64,37 +64,37 @@ def appearUserIdClient():
     print(response)
 
 if __name__ == '__main__':
-    # for i in range(1000):
-    #     hr_id = str(i)
-    #     # createUpdateIdentity(hr_id)
+    # for i in range(1):
+    # hr_id = str("hello")
+    # createUpdateIdentity(0, 1)
     #     readIdentity(hr_id)
-    appearUserIdClient()
+    # appearUserIdClient()
 
-    # # creating threads
-    # t1 = threading.Thread(target=createUpdateIdentity, args=(0, 10,))
-    # t2 = threading.Thread(target=createUpdateIdentity, args=(11, 20,))
-    # t3 = threading.Thread(target=createUpdateIdentity, args=(21, 30,))
-    # t4 = threading.Thread(target=createUpdateIdentity, args=(31, 40,))
-    # t5 = threading.Thread(target=createUpdateIdentity, args=(41, 50,))
-    # t6 = threading.Thread(target=createUpdateIdentity, args=(51, 60,))
+    # creating threads
+    t1 = threading.Thread(target=createUpdateIdentity, args=(0, 10,))
+    t2 = threading.Thread(target=createUpdateIdentity, args=(11, 20,))
+    t3 = threading.Thread(target=createUpdateIdentity, args=(21, 30,))
+    t4 = threading.Thread(target=createUpdateIdentity, args=(31, 40,))
+    t5 = threading.Thread(target=createUpdateIdentity, args=(41, 50,))
+    t6 = threading.Thread(target=createUpdateIdentity, args=(51, 60,))
 
-    # # starting threads
-    # t1.start()
-    # time.sleep(0.5)
-    # t2.start()
-    # time.sleep(0.5)
-    # t3.start()
-    # time.sleep(0.5)
-    # t4.start()
-    # time.sleep(0.5)
-    # t5.start()
-    # time.sleep(0.5)
-    # t6.start()
+    # starting threads
+    t1.start()
+    time.sleep(0.5)
+    t2.start()
+    time.sleep(0.5)
+    t3.start()
+    time.sleep(0.5)
+    t4.start()
+    time.sleep(0.5)
+    t5.start()
+    time.sleep(0.5)
+    t6.start()
  
-    # # wait until all threads finish
-    # t1.join()
-    # t2.join()
-    # t3.join()
-    # t4.join()
-    # t5.join()
-    # t6.join()
+    # wait until all threads finish
+    t1.join()
+    t2.join()
+    t3.join()
+    t4.join()
+    t5.join()
+    t6.join()
