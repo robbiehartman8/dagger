@@ -8,4 +8,12 @@ dagger100001
 
 TODO:
 
-audit tables, streams, and tasks
+change username
+email
+
+delete idnetity
+
+kafka topic for:
+identity created - provision account
+identity updated - attribute change
+identity deleted - de provision accounts
