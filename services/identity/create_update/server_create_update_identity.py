@@ -47,14 +47,11 @@ class Identity(identity_pb2_grpc.IdentityServicer):
                 name_status, name_list = IdentityUtilities().checkNameStatus(legal_name_list, preferred_name_list)
                 request_data["use_preferred_name"] = name_status
 
-                self.logger.info("Getting user_id")
                 get_user_id_request = {"identity_id": request_data["identity_id"], "first_name": name_list[0], "middle_name": name_list[1], "last_name": name_list[2]}
                 request_data["user_id"] = MessageToDict(CallService().callAppearUserId("server_appear_user_id_identity", service_ports["appearUserId"], get_user_id_request), preserving_proto_field_name=True)["user_id"]
-                # request_data["user_id"] = MessageToDict(CallService().callAppearUserId("localhost", service_ports["appearUserId"], get_user_id_request), preserving_proto_field_name=True)["user_id"]
-                self.logger.info("Got user_id")
 
                 merge_statement = QueryUtilities().createMergeStatement(request_data, const.create_update_identity_query)
-                QueryUtilities().executeMerge(merge_statement, self.snowflake_connection, self.logger)
+                QueryUtilities().executeCreateUpdate(merge_statement, self.snowflake_connection, self.logger)
                         
                 response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_success_message, self.reponse_attributes, request_data)       
         except:

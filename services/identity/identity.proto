@@ -105,7 +105,7 @@ message deleteData {
 }
 
 message deleteMessage {
-    string message = 1;
+    string status_message = 1;
 }
 
 // python -m grpc_tools.protoc --proto_path=. ./identity.proto --python_out=. --grpc_python_out=.

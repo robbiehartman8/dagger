@@ -36,11 +36,11 @@ class QueryUtilities:
                 snowflake_connection = SnowflakeConnetion().getConnection(logger)
         return results
 
-    def executeMerge(self, merge_statement, snowflake_connection, logger):
+    def executeCreateUpdate(self, create_update_statement, snowflake_connection, logger):
         while True:
             try:
                 curr = snowflake_connection.cursor()
-                curr.execute(merge_statement)
+                curr.execute(create_update_statement)
                 break
             except:
                 snowflake_connection = SnowflakeConnetion().getConnection(logger)

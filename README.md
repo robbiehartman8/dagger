@@ -11,8 +11,6 @@ TODO:
 change username
 email
 
-delete idnetity
-
 kafka topic for:
 identity created - provision account
 identity updated - attribute change

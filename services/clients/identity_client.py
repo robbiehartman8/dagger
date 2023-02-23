@@ -21,11 +21,18 @@ def createUpdateIdentity(hr_id):
         print(response)
 
 def appearUserIdClient(identity_id):
-    request = {"identity_id": "3ac4cd09d0d7b58138018bf0d009f7f1", "first_name": "robert", "middle_name": "maurice", "last_name": "hartman"}
+    request = {"identity_id": identity_id, "first_name": "robert", "middle_name": "maurice", "last_name": "hartman"}
     with grpc.insecure_channel('localhost:50054') as channel:
         stub = identity_pb2_grpc.IdentityStub(channel)
         response = stub.appearUserId(identity_pb2.getUserId(**request))
     print(response)
 
+def deleteClient(identity_id):
+    request = {"identity_id": identity_id}
+    with grpc.insecure_channel('localhost:50053') as channel:
+        stub = identity_pb2_grpc.IdentityStub(channel)
+        response = stub.deleteIdentity(identity_pb2.deleteData(**request))
+    print(response)
+
 if __name__ == '__main__':
-    appearUserIdClient("991a286e85fa0c752817d77922671baa")
+    deleteClient("cbb9f58f31a8c1300ccb3794cb87060f")

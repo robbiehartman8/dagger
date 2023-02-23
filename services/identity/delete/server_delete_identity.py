@@ -7,7 +7,7 @@ sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/identity"
 from concurrent import futures
 import grpc
 import identity_pb2
-from identity_pb2 import hrData, hrDataMessage
+from identity_pb2 import deleteData, deleteMessage
 import identity_pb2_grpc
 from google.protobuf.json_format import MessageToDict
 import logging
@@ -28,45 +28,36 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         self.logger.setLevel(logging.INFO)
 
         self.snowflake_connection = SnowflakeConnetion().getConnection(self.logger)
-        self.request_attributes = list(hrData.DESCRIPTOR.fields_by_name.keys())
-        self.reponse_attributes = list(hrDataMessage.DESCRIPTOR.fields_by_name.keys())
+        self.request_attributes = list(deleteData.DESCRIPTOR.fields_by_name.keys())
+        self.reponse_attributes = list(deleteMessage.DESCRIPTOR.fields_by_name.keys())
 
-        self.logger.info(f"Server started running on port: {service_ports['createUpdateIdentity']}")
+        self.logger.info(f"Server started running on port: {service_ports['deleteIdentity']}")
 
-    def createUpdateIdentity(self, request, context):        
+    def deleteIdentity(self, request, context):        
 
         reuqest_data = MessageToDict(request, preserving_proto_field_name=True)
         request_data = ServiceUtilities().cleanCreateUpdateRequest(reuqest_data, self.request_attributes)
 
+        if request.identity_id != "":
+            mark_statement = const.mark_for_delete_query.format("identity_id", request.identity_id)
+            self.logger.info("identity_id mark for delete")
+        elif request.hr_id != "":
+            mark_statement = const.mark_for_delete_query.format("hr_id", request.hr_id)
+            self.logger.info("hr_id mark for delete")
+
         try:
-            if request_data["hr_id"] != "":
-
-                request_data["identity_id"] = ServiceUtilities().getTablePK("identity", request_data["hr_id"])
-
-                legal_name_list, preferred_name_list = IdentityUtilities().cleanName([request.legal_first_name, request.legal_middle_name, request.legal_last_name, request.preferred_first_name, request.preferred_middle_name, request.preferred_last_name])
-                name_status, name_list = IdentityUtilities().checkNameStatus(legal_name_list, preferred_name_list)
-                request_data["use_preferred_name"] = name_status
-
-                self.logger.info("Getting user_id")
-                get_user_id_request = {"identity_id": request_data["identity_id"], "first_name": name_list[0], "middle_name": name_list[1], "last_name": name_list[2]}
-                request_data["user_id"] = MessageToDict(CallService().callAppearUserId("server_appear_user_id_identity", service_ports["appearUserId"], get_user_id_request), preserving_proto_field_name=True)["user_id"]
-                # request_data["user_id"] = MessageToDict(CallService().callAppearUserId("localhost", service_ports["appearUserId"], get_user_id_request), preserving_proto_field_name=True)["user_id"]
-                self.logger.info("Got user_id")
-
-                merge_statement = QueryUtilities().createMergeStatement(request_data, const.create_update_identity_query)
-                QueryUtilities().executeMerge(merge_statement, self.snowflake_connection, self.logger)
-                        
-                response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_success_message, self.reponse_attributes, request_data)       
+            QueryUtilities().executeCreateUpdate(mark_statement, self.snowflake_connection, self.logger)
+            response_data = {"status_message": const.mark_for_delete_success_message}    
         except:
-            response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_fail_message, ["status_message"], request_data)
+            response_data = {"status_message": const.mark_for_delete_fail_service_message}
 
-        response_data = identity_pb2.hrDataMessage(**response_data)
+        response_data = identity_pb2.deleteMessage(**response_data)
 
         return response_data
 
 if __name__ == "__main__":
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=service_workers["createUpdateIdentity"]))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=service_workers["deleteIdentity"]))
     identity_pb2_grpc.add_IdentityServicer_to_server(Identity(), server)
-    server.add_insecure_port(f"[::]:{service_ports['createUpdateIdentity']}")
+    server.add_insecure_port(f"[::]:{service_ports['deleteIdentity']}")
     server.start()
     server.wait_for_termination()
