@@ -13,7 +13,7 @@ docker-compose up -d
 
 sleep 30
 
-docker-compose exec kafka1 kafka-topics --create --bootstrap-server kafka1:9092 --replication-factor 1 --partitions 1 --topic provisioning
+docker-compose exec kafka1 kafka-topics --create --bootstrap-server kafka1:9092 --replication-factor 1 --partitions 2 --topic provisioning
 docker-compose exec kafka1 kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic deprovisioning
 docker-compose exec kafka1 kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic attributeupdate
 

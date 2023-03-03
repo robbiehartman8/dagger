@@ -1,39 +1,21 @@
-from confluent_kafka import avro
-from confluent_kafka.avro import AvroProducer
-from confluent_kafka import SerializingProducer
-from confluent_kafka.serialization import StringSerializer
+from kafka import KafkaProducer
+import json
 
-# Define the Avro schema for the message value
-schema_str = """
-{
-    "type": "record",
-    "name": "User",
-    "fields": [
-        {"name": "name", "type": "string"},
-        {"name": "age", "type": "int"}
-    ]
-}
-"""
+# create Kafka producer
+producer = KafkaProducer(bootstrap_servers='localhost:9092')
 
-# Load the Avro schema
-schema = avro.loads(schema_str)
+for i in range(10):
+    # JSON message to send
+    message = {"name": "John Doe", "age": i, "city": "New York"}
 
-# Configure the Kafka producer
-producer_conf = {
-    'bootstrap.servers': 'localhost:9092',
-    'schema.registry.url': 'http://localhost:8081',
-    'client.id': 'python-kafka-producer'
-}
+    # serialize JSON message
+    serialized_message = json.dumps(message).encode('utf-8')
 
-# Define a message to send
-message_value = {"name": "Alice", "age": 25}
+    # send message to Kafka topic
+    producer.send('provisioning', value=serialized_message)
 
-# Create an AvroProducer instance
-producer = AvroProducer(producer_conf, default_value_schema=schema)
-
-# Produce the message to the Kafka topic 'my-topic'
-producer.produce(topic='my-topic', value=message_value)
-
-# Wait for any outstanding messages to be delivered and delivery reports
-# to be received.
+# wait for any outstanding messages to be delivered and delivery reports received
 producer.flush()
+
+# close producer connection
+producer.close()
