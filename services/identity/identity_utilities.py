@@ -8,6 +8,9 @@ import string
 from config_utilities import username_generator_config
 from redis_utilities import RedisUtilities
 import re
+import grpc
+import identity_pb2
+import identity_pb2_grpc
 
 class IdentityUtilities:
 
@@ -58,3 +61,9 @@ class IdentityUtilities:
             return name_status, preferred_name_list
         else:
             return name_status, legal_name_list
+
+    def callAppearUserId(self, host, port, request_dict):
+        with grpc.insecure_channel(f"{host}:{port}") as channel:
+            stub = identity_pb2_grpc.IdentityStub(channel)
+            response = stub.appearUserId(identity_pb2.getUserId(**request_dict))
+        return response
