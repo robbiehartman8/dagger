@@ -29,8 +29,13 @@ service_ports = {
 }
 
 service_workers = {
-    "createUpdateIdentity": 15,
-    "readIdentity": 15,
+    "createUpdateIdentity": 10,
+    "readIdentity": 10,
     "deleteIdentity": 10,
-    "appearUserId": 15
+    "appearUserId": 10
+}
+
+kafka_partitions = {
+    "identity": {"identity_create": 4, "identity_update": 4, "identity_delete": 4},
+    "provisioning": {"provisioning": 4, "deprovisioning": 4}
 }

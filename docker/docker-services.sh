@@ -13,8 +13,10 @@ docker-compose up -d
 
 sleep 30
 
+docker-compose exec kafka1 kafka-topics --create --bootstrap-server kafka1:9092 --replication-factor 1 --partitions 4 --topic identity_create
+docker-compose exec kafka1 kafka-topics --create --bootstrap-server kafka1:9092 --replication-factor 1 --partitions 4 --topic identity_update
+docker-compose exec kafka1 kafka-topics --create --bootstrap-server kafka1:9092 --replication-factor 1 --partitions 4 --topic identity_delete
 docker-compose exec kafka1 kafka-topics --create --bootstrap-server kafka1:9092 --replication-factor 1 --partitions 4 --topic provisioning
 docker-compose exec kafka1 kafka-topics --create --bootstrap-server kafka1:9092 --replication-factor 1 --partitions 4 --topic deprovisioning
-docker-compose exec kafka1 kafka-topics --create --bootstrap-server kafka1:9092 --replication-factor 1 --partitions 4 --topic attributeupdate
 
 docker image prune --force
