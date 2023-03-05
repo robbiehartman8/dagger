@@ -15,13 +15,13 @@ if __name__ =="__main__":
     thread_list = []
 
     for prov_thr in range(kafka_partitions["provisioning"]["provisioning"]):
-        thread = threading.Thread(target=KafkaUtilities().consumeData, args=(redis_client, kafka_server, "provisioning", "provisioning-group", prov_thr, "", []))
+        thread = threading.Thread(target=KafkaUtilities().consumeData, args=(redis_client, KafkaUtilities().getKafkaConsumer(kafka_server), KafkaUtilities().getKafkaProducer(kafka_server), "provisioning", "provisioning-group", prov_thr, "", []))
         thread_list.append(thread)
         thread_list[-1].start()
         print(f"provisioning thread {prov_thr}")
     
     for deprov_thr in range(kafka_partitions["provisioning"]["deprovisioning"]):
-        thread = threading.Thread(target=KafkaUtilities().consumeData, args=(redis_client, kafka_server, "deprovisioning", "provisioning-group", deprov_thr, "", []))
+        thread = threading.Thread(target=KafkaUtilities().consumeData, args=(redis_client, KafkaUtilities().getKafkaConsumer(kafka_server), KafkaUtilities().getKafkaProducer(kafka_server), "deprovisioning", "provisioning-group", deprov_thr, "", []))
         thread_list.append(thread)
         thread_list[-1].start()
         print(f"deprovisioning thread {deprov_thr}")

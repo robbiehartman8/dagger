@@ -5,31 +5,35 @@ import json
 
 class KafkaUtilities:
 
-    def getKafkaConnection(self, kafka_host, connection_type):
+    def getKafkaProducer(self, kafka_host):
         try:
-            if connection_type == "producer":
-                connection = KafkaProducer(bootstrap_servers=kafka_host)
-                return connection
-            elif connection_type == "consumer":
-                connection = KafkaConsumer(bootstrap_servers=kafka_host,  value_deserializer=lambda m: json.loads(m.decode("utf-8")))
-                return connection
+            connection = KafkaProducer(bootstrap_servers=kafka_host)
+            return connection
         except:
             print("Failed to connect to kakfa")
 
-    def sendData(self, kafka_connection, topic_name, message):
+    def getKafkaConsumer(self, kafka_host):
+        try:
+            connection = KafkaConsumer(bootstrap_servers=kafka_host,  value_deserializer=lambda m: json.loads(m.decode("utf-8")))
+            return connection
+        except:
+            print("Failed to connect to kakfa")
+
+    def sendData(self, producer, topic_name, message):
         try:
             serialized_message = json.dumps(message).encode('utf-8')
-            kafka_connection.send(topic_name, value=serialized_message)
-            kafka_connection.flush()
+            producer.send(topic_name, value=serialized_message)
+            producer.flush()
             return True
         except:
             print("Failed to send message")
             return False
 
+    # move this to its own subfolder
     # mechanism == "forward"
     #   mechanism list attributes
     #   0: topic_name
-    def consumeData(self, redis_client, kafka_connection, topic_name, group_id, partition_id, mechanism, mechanism_list):
+    def consumeData(self, redis_client, consumer, producer, topic_name, group_id, partition_id, mechanism, mechanism_list):
         consumer_partition_ids = set()
         partition_data_id = 0
         while True:
@@ -39,17 +43,17 @@ class KafkaUtilities:
             partition_data_id += 1
 
         topic_partition = TopicPartition(topic_name, partition_id)
-        kafka_connection.assign([topic_partition])
-        kafka_connection.subscription()    
-        kafka_connection.seek(topic_partition, partition_data_id)
+        consumer.assign([topic_partition])
+        consumer.subscription()    
+        consumer.seek(topic_partition, partition_data_id)
 
-        for message in consumer_partition:
+        for message in consumer:
             if topic_name == "provisioning":
                 print ("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition, message.offset, message.key, message.value))
             redis_client.set(f"kafka/{topic_name}/{partition_id}/{message.offset}", 1)
 
             if mechanism == "forward":
-                sent = KafkaUtilities().sendData(kafka_host, mechanism_list[0], message.value)
+                sent = KafkaUtilities().sendData(producer, mechanism_list[0], message.value)
                 if sent == False:
                     print(sent)
             elif mechanism == "service":

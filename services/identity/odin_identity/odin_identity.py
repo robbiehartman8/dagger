@@ -15,19 +15,19 @@ if __name__ =="__main__":
     thread_list = []
 
     for create_thr in range(kafka_partitions["identity"]["identity_create"]):
-        thread = threading.Thread(target=KafkaUtilities().consumeData, args=(redis_client, kafka_server, "identity_create", "identity-group", create_thr, "service", []))
+        thread = threading.Thread(target=KafkaUtilities().consumeData, args=(redis_client, KafkaUtilities().getKafkaConsumer(kafka_server), KafkaUtilities().getKafkaProducer(kafka_server), "identity_create", "identity-group", create_thr, "service", []))
         thread_list.append(thread)
         thread_list[-1].start()
         print(f"Create thread {create_thr}")
     
     for update_thr in range(kafka_partitions["identity"]["identity_update"]):
-        thread = threading.Thread(target=KafkaUtilities().consumeData, args=(redis_client, kafka_server, "identity_update", "identity-group", update_thr, "service", []))
+        thread = threading.Thread(target=KafkaUtilities().consumeData, args=(redis_client, KafkaUtilities().getKafkaConsumer(kafka_server), KafkaUtilities().getKafkaProducer(kafka_server), "identity_update", "identity-group", update_thr, "service", []))
         thread_list.append(thread)
         thread_list[-1].start()
         print(f"Update thread {update_thr}")
 
     for delete_thr in range(kafka_partitions["identity"]["identity_delete"]):
-        thread = threading.Thread(target=KafkaUtilities().consumeData, args=(redis_client, kafka_server, "identity_delete", "identity-group", delete_thr, "forward", ["provisioning"]))
+        thread = threading.Thread(target=KafkaUtilities().consumeData, args=(redis_client, KafkaUtilities().getKafkaConsumer(kafka_server), KafkaUtilities().getKafkaProducer(kafka_server), "identity_delete", "identity-group", delete_thr, "forward", ["provisioning"]))
         thread_list.append(thread)
         thread_list[-1].start()
         print(f"Delete thread {delete_thr}")
