@@ -11,7 +11,7 @@ create_update_identity_query = """
 merge into identity.identity i
 using 
 	(select '{0}' as s) m on i.hr_id = m.s
-when matched then update set update_ts = current_timestamp, {1}
+when matched then update set {1}
 when not matched then insert ({2}) 
 values ({3});
 """
@@ -25,8 +25,7 @@ where {0} = '{1}'
 create_update_success_message = "Success: Identity created or updated."
 create_update_fail_message = "Failed: Something went wrong trying to create or update the identity. Make sure you have the hr_id in the request."
 
-appear_userid_lookup_success_message = "Success: user lookup complete"
-appear_userid_generate_success_message = "Success: new user_id generated"
+appear_userid_success_message = "Success: recieved user_id"
 
 mark_for_delete_success_message = "Success: user marked for delete"
 mark_for_delete_fail_ude_message = "Failed: user doesnt exist"

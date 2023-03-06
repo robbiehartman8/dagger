@@ -8,7 +8,6 @@ create table if not exists identity.identity (
     -- default attributes
     identity_id varchar(255) not null primary key,
     create_ts datetime not null default current_timestamp,
-    update_ts datetime not null default current_timestamp,
     -- identity attributes
     hr_id varchar(100) not null,
     user_id varchar(100) not null,
@@ -56,7 +55,6 @@ create table if not exists identity.identity_aud (
     -- default attributes
     identity_id varchar(255) not null,
     create_ts datetime not null default current_timestamp,
-    update_ts datetime not null default current_timestamp,
     -- identity attributes
     hr_id varchar(100) not null,
     user_id varchar(100) not null,
@@ -93,40 +91,3 @@ create table if not exists identity.identity_aud (
     manager_user_id varchar(100) null, --create query to populate this
     to_be_deleted boolean null
 );
-
-
-  	update_ts = t.update_ts,
-    legal_first_name = t.legal_first_name,
-    legal_middle_name = t.legal_middle_name,
-    legal_last_name = t.legal_last_name,
-    preferred_first_name = t.preferred_first_name,
-    preferred_middle_name = t.preferred_middle_name,
-    preferred_last_name = t.preferred_last_name,
-    use_preferred_name = t.use_preferred_name,
-    job_title_description = t.job_title_description,
-    job_title_level = t.update_ts,
-    location_code = t.update_ts,
-    location_name = t.update_ts,
-    location_address = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,
-    update_ts = t.update_ts,

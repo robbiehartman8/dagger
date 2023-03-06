@@ -9,7 +9,6 @@ create table if not exists identity.account (
     -- default attributes
     account_id varchar(255) not null primary key,
     create_ts datetime not null,
-    update_ts datetime not null,
     -- account attributes
     identity_correliation_attribute varchar(255) null,
     platform varchar(255) null,
@@ -30,7 +29,6 @@ create table if not exists identity.account_aud (
     -- default attributes
     account_id varchar(255) not null,
     create_ts datetime not null,
-    update_ts datetime not null,
     -- account attributes
     identity_correliation_attribute varchar(255) null,
     platform varchar(255) null,

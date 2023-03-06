@@ -13,7 +13,7 @@ drop stream account_stream;
 drop task account;
 
 -- identity_account tables
-drop table identity;
-drop table identity_aud;
-drop stream identity_stream;
-drop task identity;
+drop table identity_account;
+drop table identity_account_aud;
+drop stream identity_account_stream;
+drop task identity_account;

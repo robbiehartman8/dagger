@@ -11,7 +11,7 @@ class QueryUtilities:
             select = select + f"{attribute}::string as {attribute.replace(':', '_')},"
         return select[:-1]
 
-    def createMergeStatement(self, reuqest_data, merge_statement):
+    def createCreateUpdate(self, reuqest_data, merge_statement):
         set_statement = ""
         columns_statement = ""
         value_count_stament = ""
@@ -36,12 +36,18 @@ class QueryUtilities:
                 snowflake_connection = SnowflakeConnetion().getConnection(logger)
         return results
 
-    def executeCreateUpdate(self, create_update_statement, snowflake_connection, logger):
+    def executeCreateUpdate(self, create_update_statement, query_type, snowflake_connection, logger):
         while True:
             try:
                 curr = snowflake_connection.cursor()
                 curr.execute(create_update_statement)
-                break
+                result = curr.fetchone()
+                if query_type == "create_update" and result[0] > 0:
+                    return "insert"
+                elif query_type == "create_update" and result[1] > 0:
+                    return "update"
+                else:
+                    return "other"
             except:
                 snowflake_connection = SnowflakeConnetion().getConnection(logger)
 

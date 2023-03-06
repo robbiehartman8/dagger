@@ -46,7 +46,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
             self.logger.info("hr_id mark for delete")
 
         try:
-            QueryUtilities().executeCreateUpdate(mark_statement, self.snowflake_connection, self.logger)
+            QueryUtilities().executeCreateUpdate(mark_statement, "update", self.snowflake_connection, self.logger)
             response_data = {"status_message": const.mark_for_delete_success_message}    
         except:
             response_data = {"status_message": const.mark_for_delete_fail_service_message}

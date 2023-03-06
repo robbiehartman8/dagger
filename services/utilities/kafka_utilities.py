@@ -48,9 +48,8 @@ class KafkaUtilities:
         consumer.seek(topic_partition, partition_data_id)
 
         for message in consumer:
-            if topic_name == "provisioning":
-                print ("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition, message.offset, message.key, message.value))
             redis_client.set(f"kafka/{topic_name}/{partition_id}/{message.offset}", 1)
+            print ("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition, message.offset, message.key, message.value))
 
             if mechanism == "forward":
                 sent = KafkaUtilities().sendData(producer, mechanism_list[0], message.value)

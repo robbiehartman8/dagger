@@ -38,7 +38,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
             response = {
                 "identity_id": request.identity_id, 
                 "user_id": IdentityUtilities().getUserId(self.redis_client, request.identity_id, request.first_name, request.middle_name, request.last_name, self.logger),
-                "status_message": const.appear_userid_generate_success_message
+                "status_message": const.appear_userid_success_message
             }
         else:
             response = {
