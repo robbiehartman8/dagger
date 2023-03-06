@@ -19,7 +19,8 @@ create table if not exists access.access_catalog (
     pci boolean null,
     pii boolean null,
     secondary_account_required boolean null,
-    jit_access boolean null
+    jit_access boolean null,
+    status boolean
 );
 
 create stream if not exists access_catalog_stream on table access_catalog;
@@ -45,5 +46,6 @@ create table if not exists access.access_catalog_aud (
     pci boolean null,
     pii boolean null,
     secondary_account_required boolean null,
-    jit_access boolean null
+    jit_access boolean null,
+    status boolean
 );
