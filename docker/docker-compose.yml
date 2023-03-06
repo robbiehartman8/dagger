@@ -30,7 +30,16 @@ services:
     ports:
       - "50054:50054"
     networks:
-      - dagger      
+      - dagger
+  
+  server_delete_identity:
+    image: server_delete_identity:latest
+    hostname: server_delete_identity
+    container_name: server_delete_identity
+    ports:
+      - "50053:50053"
+    networks:
+      - dagger    
 
   redis-stack:
     image: redis/redis-stack:latest

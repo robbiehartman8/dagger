@@ -41,4 +41,4 @@ RUN python -m grpc_tools.protoc --proto_path=. ./identity.proto --python_out=. -
 ENTRYPOINT ["python"]
 
 # Start Flask service
-CMD ["server_create_update_identity.py"]
+CMD ["server_delete_identity.py"]

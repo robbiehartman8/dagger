@@ -4,8 +4,9 @@ docker rm $(docker ps -a -q)
 
 cd /Users/roberthartman/Desktop/repos/dagger
 docker build -t server_read_identity:latest -f services/identity/read/Dockerfile .
-docker build -t server_create_update_identity -f services/identity/create_update/Dockerfile .
-docker build -t server_appear_user_id_identity -f services/identity/appear_user_id/Dockerfile .
+docker build -t server_create_update_identity:latest -f services/identity/create_update/Dockerfile .
+docker build -t server_appear_user_id_identity:latest -f services/identity/appear_user_id/Dockerfile .
+docker build -t server_delete_identity:latest -f services/identity/delete/Dockerfile .
 
 cd /Users/roberthartman/Desktop/repos/dagger/docker
 docker-compose up -d
