@@ -5,4 +5,3 @@ azure-identity
 azure-keyvault
 redis
 kafka
-json

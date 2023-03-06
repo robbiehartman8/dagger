@@ -1,6 +1,7 @@
 import threading
 import json
 import logging
+logging.basicConfig(format='%(asctime)s %(message)s')
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
 import redis
@@ -23,10 +24,10 @@ if __name__ =="__main__":
         thread = threading.Thread(target=OdinProvisioningUtilities().consumeData, args=(redis_client, KafkaUtilities().getKafkaConsumer(kafka_server, logger), KafkaUtilities().getKafkaProducer(kafka_server, logger), "provisioning", "provisioning-group", prov_thr, "", [], logger))
         thread_list.append(thread)
         thread_list[-1].start()
-        print(f"provisioning thread {prov_thr}")
+        logger.info(f"provisioning thread {prov_thr}")
     
     for deprov_thr in range(kafka_partitions["provisioning"]["deprovisioning"]):
         thread = threading.Thread(target=OdinProvisioningUtilities().consumeData, args=(redis_client, KafkaUtilities().getKafkaConsumer(kafka_server, logger), KafkaUtilities().getKafkaProducer(kafka_server, logger), "deprovisioning", "provisioning-group", deprov_thr, "", [], logger))
         thread_list.append(thread)
         thread_list[-1].start()
-        print(f"deprovisioning thread {deprov_thr}")
+        logger.info(f"deprovisioning thread {deprov_thr}")

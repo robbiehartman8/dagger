@@ -35,4 +35,4 @@ def deleteClient(identity_id):
     print(response)
 
 if __name__ == '__main__':
-    deleteClient("cbb9f58f31a8c1300ccb3794cb87060f")
+    createUpdateIdentity("3")

@@ -1,6 +1,7 @@
 import threading
 import json
 import logging
+logging.basicConfig(format='%(asctime)s %(message)s')
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
 import redis
@@ -23,16 +24,16 @@ if __name__ =="__main__":
         thread = threading.Thread(target=OdinIdentityUtilities().consumeData, args=(redis_client, KafkaUtilities().getKafkaConsumer(kafka_server, logger), KafkaUtilities().getKafkaProducer(kafka_server, logger), "identity_create", "identity-group", create_thr, "service", [], logger))
         thread_list.append(thread)
         thread_list[-1].start()
-        print(f"Create thread {create_thr}")
+        logger.info(f"Create thread {create_thr}")
     
     for update_thr in range(kafka_partitions["identity"]["identity_update"]):
         thread = threading.Thread(target=OdinIdentityUtilities().consumeData, args=(redis_client, KafkaUtilities().getKafkaConsumer(kafka_server, logger), KafkaUtilities().getKafkaProducer(kafka_server, logger), "identity_update", "identity-group", update_thr, "service", [], logger))
         thread_list.append(thread)
         thread_list[-1].start()
-        print(f"Update thread {update_thr}")
+        logger.info(f"Update thread {update_thr}")
 
     for delete_thr in range(kafka_partitions["identity"]["identity_delete"]):
         thread = threading.Thread(target=OdinIdentityUtilities().consumeData, args=(redis_client, KafkaUtilities().getKafkaConsumer(kafka_server, logger), KafkaUtilities().getKafkaProducer(kafka_server, logger), "identity_delete", "identity-group", delete_thr, "forward", ["deprovisioning"], logger))
         thread_list.append(thread)
         thread_list[-1].start()
-        print(f"Delete thread {delete_thr}")
+        logger.info(f"Delete thread {delete_thr}")

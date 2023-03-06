@@ -19,7 +19,8 @@ from service_utilities import ServiceUtilities
 from query_utilities import QueryUtilities
 from identity_utilities import IdentityUtilities
 from call_service_utilities import CallService
-from config_utilities import service_ports, service_workers
+from config_utilities import service_ports, service_workers, kafka_config
+from kafka_utilities import KafkaUtilities
 
 class Identity(identity_pb2_grpc.IdentityServicer):
 
@@ -28,6 +29,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         self.logger.setLevel(logging.INFO)
 
         self.snowflake_connection = SnowflakeConnetion().getConnection(self.logger)
+        self.kafka_producer = KafkaUtilities().getKafkaProducer(kafka_config["kafka_host"], self.logger)
         self.request_attributes = list(hrData.DESCRIPTOR.fields_by_name.keys())
         self.reponse_attributes = list(hrDataMessage.DESCRIPTOR.fields_by_name.keys())
 
@@ -49,10 +51,15 @@ class Identity(identity_pb2_grpc.IdentityServicer):
 
                 get_user_id_request = {"identity_id": request_data["identity_id"], "first_name": name_list[0], "middle_name": name_list[1], "last_name": name_list[2]}
                 request_data["user_id"] = MessageToDict(CallService().callAppearUserId("server_appear_user_id_identity", service_ports["appearUserId"], get_user_id_request), preserving_proto_field_name=True)["user_id"]
-                
+
                 create_update_statement = QueryUtilities().createCreateUpdate(request_data, const.create_update_identity_query)
-                QueryUtilities().executeCreateUpdate(create_update_statement, "create_update", self.snowflake_connection, self.logger)
-                        
+                query_type = QueryUtilities().executeCreateUpdate(create_update_statement, "create_update", self.snowflake_connection, self.logger)
+
+                if query_type == "insert":
+                    KafkaUtilities().sendData(self.kafka_producer, "identity_create", {"test": "test"}, self.logger)
+                elif query_type == "update":
+                    KafkaUtilities().sendData(self.kafka_producer, "identity_update", {"test": "test"}, self.logger)
+
                 response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_success_message, self.reponse_attributes, request_data)       
         except:
             response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_fail_message, ["status_message"], request_data)

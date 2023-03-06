@@ -1,4 +1,5 @@
 import logging
+logging.basicConfig(format='%(asctime)s %(message)s')
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
 

@@ -12,6 +12,11 @@ snowflake_config = {
     "database_key": "snowflake-database"
 }
 
+# put into kv
+kafka_config = {
+    "kafka_host": ["localhost:9092"]
+}
+
 # ["firstinitial-lastname-number"], ["random", length_of_username], ["firstname-middleinitial-lastname-number"]
 username_generator_config = {
     "username_generator": ["firstname-middleinitial-lastname-number"]

@@ -10,4 +10,5 @@ TODO:
 
 - change username
 - email
+- update service call endpoints so they are in the config file
 
