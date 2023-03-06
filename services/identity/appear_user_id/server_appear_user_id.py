@@ -18,7 +18,7 @@ from snowflake.connector import DictCursor
 from service_utilities import ServiceUtilities
 import identity_constants as const
 from identity_utilities import IdentityUtilities
-from config_utilities import service_ports, service_workers
+from config_utilities import service_config, redis_config
 from redis_utilities import RedisUtilities
 
 class Identity(identity_pb2_grpc.IdentityServicer):
@@ -27,10 +27,12 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
 
-        self.redis_client = RedisUtilities().getRedisClient("redis-stack", 6379, 0, self.logger)
+        self.redis_client = RedisUtilities().getRedisClient(redis_config["redis_host"], redis_config["redis_port"], redis_config["redis_database"], self.logger)
         self.request_attributes = ["identity_id", "user_id"]
         self.response_attributes = list(userId.DESCRIPTOR.fields_by_name.keys())
         self.select_attributes = QueryUtilities().createSelectStatement(self.request_attributes)
+
+        self.logger.info(f"Server started running on port: {service_config['appearUserId']['port']}")
 
     def appearUserId(self, request, context):
             
@@ -50,8 +52,8 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         return response_data
 
 if __name__ == "__main__":
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=service_workers["appearUserId"]))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=service_config['appearUserId']['workers']))
     identity_pb2_grpc.add_IdentityServicer_to_server(Identity(), server)
-    server.add_insecure_port(f"[::]:{service_ports['appearUserId']}")
+    server.add_insecure_port(f"[::]:{service_config['appearUserId']['port']}")
     server.start()
     server.wait_for_termination()

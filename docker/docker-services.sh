@@ -8,10 +8,9 @@ docker build -t server_create_update_identity -f services/identity/create_update
 docker build -t server_appear_user_id_identity -f services/identity/appear_user_id/Dockerfile .
 
 cd /Users/roberthartman/Desktop/repos/dagger/docker
-
 docker-compose up -d
 
-sleep 30
+sleep 10
 
 docker-compose exec kafka1 kafka-topics --create --bootstrap-server kafka1:9092 --replication-factor 1 --partitions 4 --topic identity_create
 docker-compose exec kafka1 kafka-topics --create --bootstrap-server kafka1:9092 --replication-factor 1 --partitions 4 --topic identity_update

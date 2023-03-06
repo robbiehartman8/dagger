@@ -32,6 +32,7 @@ COPY ./services/utilities/query_utilities.py /app/query_utilities.py
 COPY ./services/utilities/service_utilities.py /app/service_utilities.py
 COPY ./services/utilities/snowflake_connection_utilities.py /app/snowflake_connection_utilities.py
 COPY ./services/utilities/redis_utilities.py /app/redis_utilities.py
+COPY ./services/utilities/kafka_utilities.py /app/kafka_utilities.py
 
 # Create grpc files
 RUN python -m grpc_tools.protoc --proto_path=. ./identity.proto --python_out=. --grpc_python_out=.

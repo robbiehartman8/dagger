@@ -17,27 +17,26 @@ kafka_config = {
     "kafka_host": ["kafka1:19092"]
 }
 
+redis_config = {
+    "redis_host": "redis-stack",
+    "redis_port": 6379,
+    "redis_database": 0
+}
+
+service_config = {
+    "createUpdateIdentity": {"host": "server_create_update_identity", "port": "50051", "workers": 10},
+    "readIdentity": {"host": "server_read_identity", "port": "50052", "workers": 10},
+    "deleteIdentity": {"host": "server_delete_identity", "port": "50053", "workers": 10},
+    "appearUserId": {"host": "server_appear_user_id_identity", "port": "50054", "workers": 10}
+}
+
 # ["firstinitial-lastname-number"], ["random", length_of_username], ["firstname-middleinitial-lastname-number"]
 username_generator_config = {
     "username_generator": ["firstname-middleinitial-lastname-number"]
 }
 
-company_email = {
+company_email_config = {
     "email_ending": "hartmancorp.com"
-}
-
-service_ports = {
-    "createUpdateIdentity": "50051",
-    "readIdentity": "50052",
-    "deleteIdentity": "50053",
-    "appearUserId": "50054"
-}
-
-service_workers = {
-    "createUpdateIdentity": 10,
-    "readIdentity": 10,
-    "deleteIdentity": 10,
-    "appearUserId": 10
 }
 
 kafka_partitions = {

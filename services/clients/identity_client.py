@@ -35,4 +35,5 @@ def deleteClient(identity_id):
     print(response)
 
 if __name__ == '__main__':
-    createUpdateIdentity("4")
+    for i in range(50):
+        createUpdateIdentity(str(i))

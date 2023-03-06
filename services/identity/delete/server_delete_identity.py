@@ -19,7 +19,7 @@ from service_utilities import ServiceUtilities
 from query_utilities import QueryUtilities
 from identity_utilities import IdentityUtilities
 from call_service_utilities import CallService
-from config_utilities import service_ports, service_workers
+from config_utilities import service_config
 
 class Identity(identity_pb2_grpc.IdentityServicer):
 
@@ -31,7 +31,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         self.request_attributes = list(deleteData.DESCRIPTOR.fields_by_name.keys())
         self.reponse_attributes = list(deleteMessage.DESCRIPTOR.fields_by_name.keys())
 
-        self.logger.info(f"Server started running on port: {service_ports['deleteIdentity']}")
+        self.logger.info(f"Server started running on port: {service_config['deleteIdentity']['port']}")
 
     def deleteIdentity(self, request, context):        
 
@@ -56,8 +56,8 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         return response_data
 
 if __name__ == "__main__":
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=service_workers["deleteIdentity"]))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=service_config['deleteIdentity']['workers']))
     identity_pb2_grpc.add_IdentityServicer_to_server(Identity(), server)
-    server.add_insecure_port(f"[::]:{service_ports['deleteIdentity']}")
+    server.add_insecure_port(f"[::]:{service_config['deleteIdentity']['port']}")
     server.start()
     server.wait_for_termination()

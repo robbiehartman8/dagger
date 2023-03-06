@@ -17,7 +17,7 @@ from snowflake.connector import DictCursor
 from service_utilities import ServiceUtilities
 import identity_constants as const
 from identity_utilities import IdentityUtilities
-from config_utilities import service_ports, service_workers
+from config_utilities import service_config
 
 class Identity(identity_pb2_grpc.IdentityServicer):
 
@@ -31,7 +31,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         self.response_attributes = list(identityData.DESCRIPTOR.fields_by_name.keys())
         self.select_attributes = QueryUtilities().createSelectStatement(self.response_attributes)
 
-        self.logger.info(f"Server started running on port: {service_ports['readIdentity']}")
+        self.logger.info(f"Server started running on port: {service_config['readIdentity']['port']}") 
 
     def readIdentity(self, request, context):
 
@@ -60,8 +60,8 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         return response_data
 
 if __name__ == "__main__":
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=service_workers["readIdentity"]))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=service_config['readIdentity']['workers']))
     identity_pb2_grpc.add_IdentityServicer_to_server(Identity(), server)
-    server.add_insecure_port(f"[::]:{service_ports['readIdentity']}")
+    server.add_insecure_port(f"[::]:{service_config['readIdentity']['port']}")
     server.start()
     server.wait_for_termination()
