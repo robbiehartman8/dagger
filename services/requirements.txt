@@ -4,4 +4,4 @@ snowflake-connector-python
 azure-identity
 azure-keyvault
 redis
-kafka
+kafka-python

@@ -29,7 +29,7 @@ class Identity(identity_pb2_grpc.IdentityServicer):
         self.logger.setLevel(logging.INFO)
 
         self.snowflake_connection = SnowflakeConnetion().getConnection(self.logger)
-        self.kafka_producer = KafkaUtilities().getKafkaProducer(kafka_config["kafka_host"], self.logger)
+        # self.kafka_producer = KafkaUtilities().getKafkaProducer(kafka_config["kafka_host"], self.logger)
         self.request_attributes = list(hrData.DESCRIPTOR.fields_by_name.keys())
         self.reponse_attributes = list(hrDataMessage.DESCRIPTOR.fields_by_name.keys())
 
@@ -56,9 +56,9 @@ class Identity(identity_pb2_grpc.IdentityServicer):
                 query_type = QueryUtilities().executeCreateUpdate(create_update_statement, "create_update", self.snowflake_connection, self.logger)
 
                 if query_type == "insert":
-                    KafkaUtilities().sendData(self.kafka_producer, "identity_create", {"test": "test"}, self.logger)
+                    KafkaUtilities().sendData(KafkaUtilities().getKafkaProducer(kafka_config["kafka_host"], self.logger), "identity_create", {"test": "test"}, self.logger)
                 elif query_type == "update":
-                    KafkaUtilities().sendData(self.kafka_producer, "identity_update", {"test": "test"}, self.logger)
+                    KafkaUtilities().sendData(KafkaUtilities().getKafkaProducer(kafka_config["kafka_host"], self.logger), "identity_update", {"test": "test"}, self.logger)
 
                 response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_success_message, self.reponse_attributes, request_data)       
         except:

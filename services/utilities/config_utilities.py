@@ -14,7 +14,7 @@ snowflake_config = {
 
 # put into kv
 kafka_config = {
-    "kafka_host": ["localhost:9092"]
+    "kafka_host": ["kafka1:19092"]
 }
 
 # ["firstinitial-lastname-number"], ["random", length_of_username], ["firstname-middleinitial-lastname-number"]
