@@ -5,7 +5,7 @@ sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities
 from kafka_utilities import KafkaUtilities
 
 
-class OdinIdentityUtilities:
+class OdinProvisioningUtilities:
 
     # move this to its own subfolder
     # mechanism == "forward"
@@ -24,7 +24,7 @@ class OdinIdentityUtilities:
 
         topic_partition = TopicPartition(topic_name, partition_id)
         consumer.assign([topic_partition])
-        consumer.subscription()    
+        consumer.subscription()
         consumer.seek(topic_partition, partition_data_id)
 
         for message in consumer:
