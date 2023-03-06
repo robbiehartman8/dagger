@@ -27,3 +27,22 @@ create table if not exists birthright.birthright_rule_aud (
     access_catalog_id varchar(255) not null,
     rule variant not null
 );
+
+
+-- insert into birthright.birthright_rule(birthright_rule_id, status, access_catalog_id, rule) select '1', True, '1',
+-- parse_json($${
+--   "job_title_code": "eng",
+--   "location_code": "1001"
+-- }$$);
+
+-- select birthright_rule_id, access_catalog_id, rule
+-- from birthright.birthright_rule
+-- where 
+-- (rule:location_code::varchar = '1003' or rule:location_code::varchar = 'NULL' or rule:location_code::varchar is null)
+-- and
+-- (rule:job_title_code::varchar = 'ceo' or rule:job_title_code::varchar = 'NULL' or rule:job_title_code::varchar is null)
+-- and
+-- (rule:job_title_level::varchar = '100' or rule:job_title_level::varchar = 'NULL' or rule:job_title_level::varchar is null)
+-- and
+-- (rule:employee_type::varchar = 'ft' or rule:employee_type::varchar = 'NULL' or rule:employee_type::varchar is null)
+-- ;

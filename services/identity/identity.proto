@@ -52,7 +52,9 @@ message hrData {
     string leave_of_absense_end_date = 24;
     string employee_type = 25;
     string cost_center = 26;
-    string manager_hr_id = 27;
+    string department_number = 27;
+    string department_name = 28;
+    string manager_hr_id = 29;
 }
 
 message hrDataMessage {
@@ -65,38 +67,39 @@ message hrDataMessage {
 message identityData {
     string identity_id = 1;
     string create_ts = 2;
-    string update_ts = 3;
-    string hr_id = 4;
-    string user_id = 5;
-    string legal_first_name = 6;
-    string legal_middle_name = 7;
-    string legal_last_name = 8;
-    string preferred_first_name = 9;
-    string preferred_middle_name = 10;
-    string preferred_last_name = 11;
-    string use_preferred_name = 12;
-    string job_title_code = 13;
-    string job_title_description = 14;
-    string job_title_level = 15;
-    string location_code = 16;
-    string location_name = 17;
-    string location_address = 18;
-    string phone_number_work = 19;
-    string phone_number_work_mobile = 20;
-    string phone_number_home = 21;
-    string phone_number_home_mobile = 22;
-    string email_work_primary = 23;
-    string email_home_primary = 24;
-    string status = 25;
-    string hire_start_date = 26;
-    string termination_date = 27;
-    string leave_of_absense_start_date = 28;
-    string leave_of_absense_end_date = 29;
-    string employee_type = 30;
-    string cost_center = 31;
-    string manager_identity_id = 32;
-    string manager_hr_id = 33;
-    string manager_user_id = 34;
+    string hr_id = 3;
+    string user_id = 4;
+    string legal_first_name = 5;
+    string legal_middle_name = 6;
+    string legal_last_name = 7;
+    string preferred_first_name = 8;
+    string preferred_middle_name = 9;
+    string preferred_last_name = 10;
+    string use_preferred_name = 11;
+    string job_title_code = 12;
+    string job_title_description = 13;
+    string job_title_level = 14;
+    string location_code = 15;
+    string location_name = 16;
+    string location_address = 17;
+    string phone_number_work = 18;
+    string phone_number_work_mobile = 19;
+    string phone_number_home = 20;
+    string phone_number_home_mobile = 21;
+    string email_work_primary = 22;
+    string email_home_primary = 23;
+    string status = 24;
+    string hire_start_date = 25;
+    string termination_date = 26;
+    string leave_of_absense_start_date = 27;
+    string leave_of_absense_end_date = 28;
+    string employee_type = 29;
+    string cost_center = 30;
+    string department_number = 31;
+    string department_name = 32;
+    string manager_identity_id = 33;
+    string manager_hr_id = 34;
+    string manager_user_id = 35;
 }
 
 message deleteData {

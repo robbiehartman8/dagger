@@ -37,6 +37,8 @@ create table if not exists identity.identity (
     leave_of_absense_end_date varchar(100) null,
     employee_type varchar(100) null,
     cost_center varchar(100) null,
+    department_number varchar(100) null,
+    department_name varchar(100) null,
     manager_identity_id varchar(100) null, --create query to populate this
     manager_hr_id varchar(100) null,
     manager_user_id varchar(100) null, --create query to populate this
@@ -84,6 +86,8 @@ create table if not exists identity.identity_aud (
     leave_of_absense_end_date varchar(100) null,
     employee_type varchar(100) null,
     cost_center varchar(100) null,
+    department_number varchar(100) null,
+    department_name varchar(100) null,
     manager_identity_id varchar(100) null, --create query to populate this
     manager_hr_id varchar(100) null,
     manager_user_id varchar(100) null, --create query to populate this
