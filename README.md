@@ -12,7 +12,11 @@ services:
 * create_update
     - change username
     - email
+    - manager items
 
+* access
+    - data model
+    
 * birthright
     - data model
     - create_update rule
@@ -20,4 +24,6 @@ services:
     - read_rule (from redis)
     - odin
     - redis cache for rules
+
+
 

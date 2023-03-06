@@ -3,3 +3,4 @@
 use dagger;
 
 create schema if not exists identity;
+create schema if not exists access;

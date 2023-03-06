@@ -1,7 +1,5 @@
 -- this file creates the identity.identity table
 
--- TODO: action flags in the table: mark for delete
-
 use dagger.identity;
 
 create table if not exists identity.identity (
