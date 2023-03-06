@@ -8,7 +8,16 @@ dagger100001
 
 TODO:
 
-- change username
-- email
-- update service call endpoints so they are in the config file
+services:
+* create_update
+    - change username
+    - email
+
+* birthright
+    - data model
+    - create_update rule
+    - delete rule
+    - read_rule (from redis)
+    - odin
+    - redis cache for rules
 
