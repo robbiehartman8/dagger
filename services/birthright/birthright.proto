@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+service Birthright {
+   rpc createUpdateBirthrightRule (birthrightRule) returns (birthrightRuleMessage) {}
+   rpc readBirthrightRule (readData) returns (birthrightData) {}
+   rpc deleteBirthrightRule (deleteData) returns (deleteMessage) {}
+   rpc getBirthrightAccess (getAccess) returns (access) {}
+}
+
+message birthrightRule {
+    string status = 1;
+    string entitlement = 2;
+    map<string, string> rule = 3;
+}
+
+message birthrightRuleMessage {
+    string birthright_rule_id = 1;
+    string status_message = 2;
+}
+
+message readData {
+    string birthright_rule_id = 1;
+}
+
+message birthrightData {
+    string birthright_rule_id = 1;
+    string status = 2;
+    string access_catalog_id = 3;
+    map<string, string> rule = 4;
+}
+
+message deleteData {
+    string birthright_rule_id = 1;
+}
+
+message deleteMessage {
+    string status_message = 1;
+}
+
+message getAccess {
+    map<string, string> identity_data = 1;
+}
+
+message access {
+    map<string, string> access_data = 1;
+}
+
+// python -m grpc_tools.protoc --proto_path=. ./birthright.proto --python_out=. --grpc_python_out=.

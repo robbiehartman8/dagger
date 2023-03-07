@@ -1,15 +1,22 @@
 # this file contains general utilities for the services
 
 import hashlib
+import json
 
 class ServiceUtilities:
+
+    def convertToDict(self, value):
+        if "{" in value:
+            return json.loads(value)
+        else:
+            return value
 
     def getReadResponse(self, response_attributes, raw_response_data):
         response = {}
         raw_response_data = {k.lower(): v for k, v in raw_response_data.items()}
         for key in response_attributes:
             try:
-                response[key] = raw_response_data[key]
+                response[key] = ServiceUtilities().convertToDict(raw_response_data[key])
             except: 
                 response[key] = ""
         return response

@@ -8,6 +8,10 @@ dagger100001
 
 TODO:
 
+odin:
+* odin identity
+    - make docker image and deploy
+
 services:
 * create_update
     - change username
