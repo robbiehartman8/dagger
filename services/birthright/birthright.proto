@@ -38,7 +38,7 @@ message deleteMessage {
 }
 
 message getAccess {
-    map<string, string> identity_data = 1;
+    string identity_id = 1;
 }
 
 message access {

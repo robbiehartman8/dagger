@@ -31,6 +31,7 @@ service_config = {
     "appearUserId": {"host": "server_appear_user_id_identity", "port": "50054", "workers": 10},
     # birthright
     "readBirthright": {"host": "server_read_birthright", "port": "50055", "workers": 10},
+    "getAccessBirthright": {"host": "server_get_access_birthright", "port": "50056", "workers": 10},
 }
 
 # ["firstinitial-lastname-number"], ["random", length_of_username], ["firstname-middleinitial-lastname-number"]

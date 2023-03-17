@@ -6,7 +6,6 @@ sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/birthrigh
 from concurrent import futures
 import grpc
 import birthright_pb2
-from birthright_pb2 import readData, birthrightData
 import birthright_pb2_grpc
 import logging
 logging.basicConfig(format='%(asctime)s %(message)s')
@@ -31,9 +30,9 @@ class Birthright(birthright_pb2_grpc.BirthrightServicer):
         self.response_attributes = list(birthrightData.DESCRIPTOR.fields_by_name.keys())
         self.select_attributes = QueryUtilities().createSelectStatement(self.response_attributes)
 
-        self.logger.info(f"Server started running on port: {service_config['readBirthright']['port']}") 
+        self.logger.info(f"Server started running on port: {service_config['getAccessBirthright']['port']}") 
 
-    def readBirthrightRule(self, request, context):
+    def getBirthrightAccess(self, request, context):
 
         if request.birthright_rule_id != "":
             select_statement = const.read_birthright_rule_query.format(self.select_attributes, "birthright_rule_id", request.birthright_rule_id)
@@ -56,8 +55,8 @@ class Birthright(birthright_pb2_grpc.BirthrightServicer):
         return response_data
 
 if __name__ == "__main__":
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=service_config['readBirthright']['workers']))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=service_config['getAccessBirthright']['workers']))
     birthright_pb2_grpc.add_BirthrightServicer_to_server(Birthright(), server)
-    server.add_insecure_port(f"[::]:{service_config['readBirthright']['port']}")
+    server.add_insecure_port(f"[::]:{service_config['getAccessBirthright']['port']}")
     server.start()
     server.wait_for_termination()
