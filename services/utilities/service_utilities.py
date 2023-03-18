@@ -21,6 +21,12 @@ class ServiceUtilities:
                 response[key] = ""
         return response
 
+    def getMVReadResponse(self, response_attributes, raw_response_data):
+        for item in range(len(raw_response_data)):
+            raw_response_data[item] = {k.lower(): v for k, v in raw_response_data[item].items()}
+        response = {response_attributes[0]: raw_response_data}
+        return response
+
     def cleanCreateUpdateRequest(self, request_data, request_attributes):
         for attribute in request_attributes:
             if attribute in request_data and request_data[attribute] == "":

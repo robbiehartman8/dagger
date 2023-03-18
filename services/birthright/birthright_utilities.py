@@ -6,5 +6,4 @@ class BirthrightUtilities:
         where_list = []
         for column, value in identity_response.items():
             where_list.append(con.get_access_where_clause.format(column, value))
-        return con.get_access_select_query.format(" and ".join([str(item) for item in where_list]))
-
+        return con.get_access_select_query.format(con.access_data_string, " and ".join([str(item) for item in where_list]))

@@ -3,8 +3,8 @@ Provisioning tool.
 
 
 snowflake email:
-dagger100001@gmail.com
-dagger100001
+dagger100002@gmail.com
+dagger100002
 
 TODO:
 

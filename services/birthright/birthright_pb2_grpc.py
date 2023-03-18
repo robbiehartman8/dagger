@@ -32,7 +32,7 @@ class BirthrightStub(object):
         self.getBirthrightAccess = channel.unary_unary(
                 '/Birthright/getBirthrightAccess',
                 request_serializer=birthright__pb2.getAccess.SerializeToString,
-                response_deserializer=birthright__pb2.access.FromString,
+                response_deserializer=birthright__pb2.birthrightItemsArray.FromString,
                 )
 
 
@@ -84,7 +84,7 @@ def add_BirthrightServicer_to_server(servicer, server):
             'getBirthrightAccess': grpc.unary_unary_rpc_method_handler(
                     servicer.getBirthrightAccess,
                     request_deserializer=birthright__pb2.getAccess.FromString,
-                    response_serializer=birthright__pb2.access.SerializeToString,
+                    response_serializer=birthright__pb2.birthrightItemsArray.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -160,6 +160,6 @@ class Birthright(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Birthright/getBirthrightAccess',
             birthright__pb2.getAccess.SerializeToString,
-            birthright__pb2.access.FromString,
+            birthright__pb2.birthrightItemsArray.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -4,7 +4,7 @@ service Birthright {
    rpc createUpdateBirthrightRule (birthrightRule) returns (birthrightRuleMessage) {}
    rpc readBirthrightRule (readBirthrightData) returns (birthrightData) {}
    rpc deleteBirthrightRule (deleteBirthrightData) returns (deleteBirthrightMessage) {}
-   rpc getBirthrightAccess (getAccess) returns (access) {}
+   rpc getBirthrightAccess (getAccess) returns (birthrightItemsArray) {}
 }
 
 message birthrightRule {
@@ -26,7 +26,7 @@ message birthrightData {
     string birthright_rule_id = 1;
     string status = 2;
     string access_catalog_id = 3;
-    map<string, string> rçule = 4;
+    map<string, string> rule = 4;
 }
 
 message deleteBirthrightData {
@@ -41,8 +41,12 @@ message getAccess {
     string identity_id = 1;
 }
 
-message access {
-    map<string, string> access_data = 1;
+message birthrightItems {
+    string access_data = 1;
+}
+
+message birthrightItemsArray {
+    repeated birthrightItems items = 1;
 }
 
 // python -m grpc_tools.protoc --proto_path=. ./birthright.proto --python_out=. --grpc_python_out=.

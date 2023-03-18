@@ -6,7 +6,7 @@ sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/birthrigh
 from concurrent import futures
 import grpc
 import birthright_pb2
-from birthright_pb2 import getAccess, access
+from birthright_pb2 import getAccess, birthrightItemsArray
 import birthright_pb2_grpc
 from google.protobuf.json_format import MessageToDict
 import logging
@@ -30,8 +30,7 @@ class Birthright(birthright_pb2_grpc.BirthrightServicer):
         self.snowflake_connection = SnowflakeConnetion().getConnection(self.logger)
         self.service_util = ServiceUtilities()
         self.request_attributes = list(getAccess.DESCRIPTOR.fields_by_name.keys())
-        self.response_attributes = list(access.DESCRIPTOR.fields_by_name.keys())
-        self.select_attributes = QueryUtilities().createSelectStatement(self.response_attributes)
+        self.response_attributes = list(birthrightItemsArray.DESCRIPTOR.fields_by_name.keys())
 
         self.logger.info(f"Server started running on port: {service_config['getAccessBirthright']['port']}") 
 
@@ -44,16 +43,15 @@ class Birthright(birthright_pb2_grpc.BirthrightServicer):
 
             results = QueryUtilities().executeSelect(select_statement, self.snowflake_connection, self.logger)
             self.logger.info("Executed select statement")
-            # try:
-            results = results[0]
-            response = self.service_util.getReadResponse(self.response_attributes, results)
-            response_data = birthright_pb2.birthrightData(**response)
-            self.logger.info("Entry existed")
-            # except:
-            response_data = birthright_pb2.birthrightData()
-            self.logger.info("Entry did not exist")
+            try:
+                response = self.service_util.getMVReadResponse(self.response_attributes, results)
+                response_data = birthright_pb2.birthrightItemsArray(**response)
+                self.logger.info("Entry existed")
+            except:
+                response_data = birthright_pb2.birthrightItemsArray()
+                self.logger.info("Entry did not exist")
         else:
-            response_data = birthright_pb2.birthrightData()
+            response_data = birthright_pb2.birthrightItemsArray()
             self.logger.info("Did not pass birthright_rule_id")   
 
         return response_data
