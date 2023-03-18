@@ -55,9 +55,9 @@ class Identity(identity_pb2_grpc.IdentityServicer):
                 query_type = QueryUtilities().executeCreateUpdate(create_update_statement, "create_update", self.snowflake_connection, self.logger)
 
                 if query_type == "insert":
-                    KafkaUtilities().sendData(KafkaUtilities().getKafkaProducer(kafka_config["kafka_host"], self.logger), "identity_create", {request_data["hr_id"]: "test"}, self.logger)
+                    KafkaUtilities().sendData(KafkaUtilities().getKafkaProducer(kafka_config["kafka_host"], self.logger), "identity_create", {"identity_id": request_data["identity_id"]}, self.logger)
                 elif query_type == "update":
-                    KafkaUtilities().sendData(KafkaUtilities().getKafkaProducer(kafka_config["kafka_host"], self.logger), "identity_update", {request_data["hr_id"]: "test"}, self.logger)
+                    KafkaUtilities().sendData(KafkaUtilities().getKafkaProducer(kafka_config["kafka_host"], self.logger), "identity_update", {"identity_id": request_data["identity_id"]}, self.logger)
 
                 response_data = ServiceUtilities().getCreateUpdateResponse(const.create_update_success_message, self.reponse_attributes, request_data)       
         except:

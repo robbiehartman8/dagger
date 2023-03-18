@@ -3,6 +3,8 @@ import json
 import sys
 sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/utilities")
 from kafka_utilities import KafkaUtilities
+from call_service_utilities import CallService
+from config_utilities import service_config
 
 
 class OdinIdentityUtilities:
@@ -34,5 +36,8 @@ class OdinIdentityUtilities:
             if mechanism == "forward":
                 sent = KafkaUtilities().sendData(producer, mechanism_list[0], message.value, logger)
             elif mechanism == "service":
-                pass
+                print(message.value)
+                # pass
+                CallService().callGetAccessBirthright("localhost", service_config['getAccessBirthright']['port'], message.value)
+                
             # TODO: call birthright service

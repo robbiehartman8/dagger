@@ -19,6 +19,7 @@ RUN pip install -r requirements.txt
 
 # Copy Python files to image
 # Proto file
+COPY ./services/birthright/birthright.proto /app/birthright.proto
 COPY ./services/identity/identity.proto /app/identity.proto
 # Main python file
 COPY ./services/identity/create_update/server_create_update_identity.py /app/server_create_update_identity.py
@@ -35,6 +36,7 @@ COPY ./services/utilities/redis_utilities.py /app/redis_utilities.py
 COPY ./services/utilities/kafka_utilities.py /app/kafka_utilities.py
 
 # Create grpc files
+RUN python -m grpc_tools.protoc --proto_path=. ./birthright.proto --python_out=. --grpc_python_out=.
 RUN python -m grpc_tools.protoc --proto_path=. ./identity.proto --python_out=. --grpc_python_out=.
 
 # Configure the container to run in an executed manner

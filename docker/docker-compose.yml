@@ -41,6 +41,17 @@ services:
     networks:
       - dagger    
 
+# birthright
+  server_get_access_birthright:
+    image: server_get_access_birthright:latest
+    hostname: server_get_access_birthright
+    container_name: server_get_access_birthright
+    ports:
+      - "50056:50056"
+    networks:
+      - dagger  
+
+# services
   redis-stack:
     image: redis/redis-stack:latest
     hostname: redis-stack

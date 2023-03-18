@@ -15,5 +15,5 @@ select access_catalog_id::varchar as access_data
 from birthright.birthright_rule
 where {1}
 """
-get_access_where_clause = "(rule:{0}::varchar = '{1}' or rule:location_code::varchar = 'NULL' or rule:location_code::varchar is null)"
+get_access_where_clause = "(rule:{0}::varchar = '{1}' or rule:{0}::varchar = 'NULL' or rule:{0}::varchar is null)"
 
