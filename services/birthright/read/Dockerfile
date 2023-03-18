@@ -19,12 +19,13 @@ RUN pip install -r requirements.txt
 
 # Copy Python files to image
 # Proto file
+COPY ./services/birthright/birthright.proto /app/birthright.proto
 COPY ./services/identity/identity.proto /app/identity.proto
 # Main python file
-COPY ./services/identity/read/server_read_identity.py /app/server_read_identity.py
+COPY ./services/birthright/read/server_read_birthright.py /app/server_read_birthright.py 
 # Identity files
-COPY ./services/identity/identity_constants.py /app/identity_constants.py
-COPY ./services/identity/identity_utilities.py /app/identity_utilities.py
+COPY ./services/birthright/birthright_constants.py /app/birthright_constants.py
+COPY ./services/birthright/birthright_utilities.py /app/birthright_utilities.py
 # Utilities
 COPY ./services/utilities/call_service_utilities.py /app/call_service_utilities.py
 COPY ./services/utilities/config_utilities.py /app/config_utilities.py
@@ -35,10 +36,11 @@ COPY ./services/utilities/redis_utilities.py /app/redis_utilities.py
 COPY ./services/utilities/kafka_utilities.py /app/kafka_utilities.py
 
 # Create grpc files
+RUN python -m grpc_tools.protoc --proto_path=. ./birthright.proto --python_out=. --grpc_python_out=.
 RUN python -m grpc_tools.protoc --proto_path=. ./identity.proto --python_out=. --grpc_python_out=.
 
 # Configure the container to run in an executed manner
 ENTRYPOINT ["python"]
 
 # Start Flask service
-CMD ["server_read_identity.py"]
+CMD ["server_read_birthright.py"]

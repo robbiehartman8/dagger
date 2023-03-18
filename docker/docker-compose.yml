@@ -42,6 +42,15 @@ services:
       - dagger    
 
 # birthright
+  server_read_birthright:
+    image: server_read_birthright:latest
+    hostname: server_read_birthright
+    container_name: server_read_birthright
+    ports:
+      - "50055:50055"
+    networks:
+      - dagger  
+
   server_get_access_birthright:
     image: server_get_access_birthright:latest
     hostname: server_get_access_birthright

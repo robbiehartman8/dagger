@@ -8,7 +8,7 @@ def readBirthrightRule(birthright_rule_id):
     request = {"birthright_rule_id": birthright_rule_id}
     with grpc.insecure_channel('localhost:50055') as channel:
         stub = birthright_pb2_grpc.BirthrightStub(channel)
-        response = stub.readBirthrightRule(birthright_pb2.readData(**request))
+        response = stub.readBirthrightRule(birthright_pb2.readBirthrightData(**request))
     print(response)
 
 def getAccess(identity_id):
@@ -19,4 +19,5 @@ def getAccess(identity_id):
     print(response)
 
 if __name__ == '__main__':
-    getAccess("a695103c72ec15c903758592d7d7f294")
+    readBirthrightRule("1")
+    # getAccess("a695103c72ec15c903758592d7d7f294")
