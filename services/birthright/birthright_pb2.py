@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x62irthright.proto\"\x8b\x01\n\x0e\x62irthrightRule\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x13\n\x0b\x65ntitlement\x18\x02 \x01(\t\x12\'\n\x04rule\x18\x03 \x03(\x0b\x32\x19.birthrightRule.RuleEntry\x1a+\n\tRuleEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"K\n\x15\x62irthrightRuleMessage\x12\x1a\n\x12\x62irthright_rule_id\x18\x01 \x01(\t\x12\x16\n\x0estatus_message\x18\x02 \x01(\t\"&\n\x08readData\x12\x1a\n\x12\x62irthright_rule_id\x18\x01 \x01(\t\"\xad\x01\n\x0e\x62irthrightData\x12\x1a\n\x12\x62irthright_rule_id\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\t\x12\x19\n\x11\x61\x63\x63\x65ss_catalog_id\x18\x03 \x01(\t\x12\'\n\x04rule\x18\x04 \x03(\x0b\x32\x19.birthrightData.RuleEntry\x1a+\n\tRuleEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"(\n\ndeleteData\x12\x1a\n\x12\x62irthright_rule_id\x18\x01 \x01(\t\"\'\n\rdeleteMessage\x12\x16\n\x0estatus_message\x18\x01 \x01(\t\"u\n\tgetAccess\x12\x33\n\ridentity_data\x18\x01 \x03(\x0b\x32\x1c.getAccess.IdentityDataEntry\x1a\x33\n\x11IdentityDataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"i\n\x06\x61\x63\x63\x65ss\x12,\n\x0b\x61\x63\x63\x65ss_data\x18\x01 \x03(\x0b\x32\x17.access.AccessDataEntry\x1a\x31\n\x0f\x41\x63\x63\x65ssDataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x32\xee\x01\n\nBirthright\x12G\n\x1a\x63reateUpdateBirthrightRule\x12\x0f.birthrightRule\x1a\x16.birthrightRuleMessage\"\x00\x12\x32\n\x12readBirthrightRule\x12\t.readData\x1a\x0f.birthrightData\"\x00\x12\x35\n\x14\x64\x65leteBirthrightRule\x12\x0b.deleteData\x1a\x0e.deleteMessage\"\x00\x12,\n\x13getBirthrightAccess\x12\n.getAccess\x1a\x07.access\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x62irthright.proto\"\x8b\x01\n\x0e\x62irthrightRule\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x13\n\x0b\x65ntitlement\x18\x02 \x01(\t\x12\'\n\x04rule\x18\x03 \x03(\x0b\x32\x19.birthrightRule.RuleEntry\x1a+\n\tRuleEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"K\n\x15\x62irthrightRuleMessage\x12\x1a\n\x12\x62irthright_rule_id\x18\x01 \x01(\t\x12\x16\n\x0estatus_message\x18\x02 \x01(\t\"0\n\x12readBirthrightData\x12\x1a\n\x12\x62irthright_rule_id\x18\x01 \x01(\t\"\xad\x01\n\x0e\x62irthrightData\x12\x1a\n\x12\x62irthright_rule_id\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\t\x12\x19\n\x11\x61\x63\x63\x65ss_catalog_id\x18\x03 \x01(\t\x12\'\n\x04rule\x18\x04 \x03(\x0b\x32\x19.birthrightData.RuleEntry\x1a+\n\tRuleEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"2\n\x14\x64\x65leteBirthrightData\x12\x1a\n\x12\x62irthright_rule_id\x18\x01 \x01(\t\"1\n\x17\x64\x65leteBirthrightMessage\x12\x16\n\x0estatus_message\x18\x01 \x01(\t\" \n\tgetAccess\x12\x13\n\x0bidentity_id\x18\x01 \x01(\t\"i\n\x06\x61\x63\x63\x65ss\x12,\n\x0b\x61\x63\x63\x65ss_data\x18\x01 \x03(\x0b\x32\x17.access.AccessDataEntry\x1a\x31\n\x0f\x41\x63\x63\x65ssDataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x32\x8c\x02\n\nBirthright\x12G\n\x1a\x63reateUpdateBirthrightRule\x12\x0f.birthrightRule\x1a\x16.birthrightRuleMessage\"\x00\x12<\n\x12readBirthrightRule\x12\x13.readBirthrightData\x1a\x0f.birthrightData\"\x00\x12I\n\x14\x64\x65leteBirthrightRule\x12\x15.deleteBirthrightData\x1a\x18.deleteBirthrightMessage\"\x00\x12,\n\x13getBirthrightAccess\x12\n.getAccess\x1a\x07.access\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'birthright_pb2', globals())
@@ -24,8 +24,6 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _BIRTHRIGHTRULE_RULEENTRY._serialized_options = b'8\001'
   _BIRTHRIGHTDATA_RULEENTRY._options = None
   _BIRTHRIGHTDATA_RULEENTRY._serialized_options = b'8\001'
-  _GETACCESS_IDENTITYDATAENTRY._options = None
-  _GETACCESS_IDENTITYDATAENTRY._serialized_options = b'8\001'
   _ACCESS_ACCESSDATAENTRY._options = None
   _ACCESS_ACCESSDATAENTRY._serialized_options = b'8\001'
   _BIRTHRIGHTRULE._serialized_start=21
@@ -34,24 +32,22 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _BIRTHRIGHTRULE_RULEENTRY._serialized_end=160
   _BIRTHRIGHTRULEMESSAGE._serialized_start=162
   _BIRTHRIGHTRULEMESSAGE._serialized_end=237
-  _READDATA._serialized_start=239
-  _READDATA._serialized_end=277
-  _BIRTHRIGHTDATA._serialized_start=280
-  _BIRTHRIGHTDATA._serialized_end=453
+  _READBIRTHRIGHTDATA._serialized_start=239
+  _READBIRTHRIGHTDATA._serialized_end=287
+  _BIRTHRIGHTDATA._serialized_start=290
+  _BIRTHRIGHTDATA._serialized_end=463
   _BIRTHRIGHTDATA_RULEENTRY._serialized_start=117
   _BIRTHRIGHTDATA_RULEENTRY._serialized_end=160
-  _DELETEDATA._serialized_start=455
-  _DELETEDATA._serialized_end=495
-  _DELETEMESSAGE._serialized_start=497
-  _DELETEMESSAGE._serialized_end=536
-  _GETACCESS._serialized_start=538
-  _GETACCESS._serialized_end=655
-  _GETACCESS_IDENTITYDATAENTRY._serialized_start=604
-  _GETACCESS_IDENTITYDATAENTRY._serialized_end=655
-  _ACCESS._serialized_start=657
-  _ACCESS._serialized_end=762
-  _ACCESS_ACCESSDATAENTRY._serialized_start=713
-  _ACCESS_ACCESSDATAENTRY._serialized_end=762
-  _BIRTHRIGHT._serialized_start=765
-  _BIRTHRIGHT._serialized_end=1003
+  _DELETEBIRTHRIGHTDATA._serialized_start=465
+  _DELETEBIRTHRIGHTDATA._serialized_end=515
+  _DELETEBIRTHRIGHTMESSAGE._serialized_start=517
+  _DELETEBIRTHRIGHTMESSAGE._serialized_end=566
+  _GETACCESS._serialized_start=568
+  _GETACCESS._serialized_end=600
+  _ACCESS._serialized_start=602
+  _ACCESS._serialized_end=707
+  _ACCESS_ACCESSDATAENTRY._serialized_start=658
+  _ACCESS_ACCESSDATAENTRY._serialized_end=707
+  _BIRTHRIGHT._serialized_start=710
+  _BIRTHRIGHT._serialized_end=978
 # @@protoc_insertion_point(module_scope)

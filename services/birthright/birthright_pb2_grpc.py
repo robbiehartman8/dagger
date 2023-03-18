@@ -21,13 +21,13 @@ class BirthrightStub(object):
                 )
         self.readBirthrightRule = channel.unary_unary(
                 '/Birthright/readBirthrightRule',
-                request_serializer=birthright__pb2.readData.SerializeToString,
+                request_serializer=birthright__pb2.readBirthrightData.SerializeToString,
                 response_deserializer=birthright__pb2.birthrightData.FromString,
                 )
         self.deleteBirthrightRule = channel.unary_unary(
                 '/Birthright/deleteBirthrightRule',
-                request_serializer=birthright__pb2.deleteData.SerializeToString,
-                response_deserializer=birthright__pb2.deleteMessage.FromString,
+                request_serializer=birthright__pb2.deleteBirthrightData.SerializeToString,
+                response_deserializer=birthright__pb2.deleteBirthrightMessage.FromString,
                 )
         self.getBirthrightAccess = channel.unary_unary(
                 '/Birthright/getBirthrightAccess',
@@ -73,13 +73,13 @@ def add_BirthrightServicer_to_server(servicer, server):
             ),
             'readBirthrightRule': grpc.unary_unary_rpc_method_handler(
                     servicer.readBirthrightRule,
-                    request_deserializer=birthright__pb2.readData.FromString,
+                    request_deserializer=birthright__pb2.readBirthrightData.FromString,
                     response_serializer=birthright__pb2.birthrightData.SerializeToString,
             ),
             'deleteBirthrightRule': grpc.unary_unary_rpc_method_handler(
                     servicer.deleteBirthrightRule,
-                    request_deserializer=birthright__pb2.deleteData.FromString,
-                    response_serializer=birthright__pb2.deleteMessage.SerializeToString,
+                    request_deserializer=birthright__pb2.deleteBirthrightData.FromString,
+                    response_serializer=birthright__pb2.deleteBirthrightMessage.SerializeToString,
             ),
             'getBirthrightAccess': grpc.unary_unary_rpc_method_handler(
                     servicer.getBirthrightAccess,
@@ -125,7 +125,7 @@ class Birthright(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Birthright/readBirthrightRule',
-            birthright__pb2.readData.SerializeToString,
+            birthright__pb2.readBirthrightData.SerializeToString,
             birthright__pb2.birthrightData.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -142,8 +142,8 @@ class Birthright(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Birthright/deleteBirthrightRule',
-            birthright__pb2.deleteData.SerializeToString,
-            birthright__pb2.deleteMessage.FromString,
+            birthright__pb2.deleteBirthrightData.SerializeToString,
+            birthright__pb2.deleteBirthrightMessage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

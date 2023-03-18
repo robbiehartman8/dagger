@@ -6,7 +6,7 @@ sys.path.insert(1, "/Users/roberthartman/Desktop/repos/dagger/services/birthrigh
 from concurrent import futures
 import grpc
 import birthright_pb2
-from birthright_pb2 import readData, birthrightData
+from birthright_pb2 import readBirthrightData, birthrightData
 import birthright_pb2_grpc
 import logging
 logging.basicConfig(format='%(asctime)s %(message)s')
@@ -27,7 +27,7 @@ class Birthright(birthright_pb2_grpc.BirthrightServicer):
 
         self.snowflake_connection = SnowflakeConnetion().getConnection(self.logger)
         self.service_util = ServiceUtilities()
-        self.request_attributes = list(readData.DESCRIPTOR.fields_by_name.keys())
+        self.request_attributes = list(readBirthrightData.DESCRIPTOR.fields_by_name.keys())
         self.response_attributes = list(birthrightData.DESCRIPTOR.fields_by_name.keys())
         self.select_attributes = QueryUtilities().createSelectStatement(self.response_attributes)
 

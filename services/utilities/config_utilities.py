@@ -26,7 +26,7 @@ redis_config = {
 service_config = {
     # identity
     "createUpdateIdentity": {"host": "server_create_update_identity", "port": "50051", "workers": 10},
-    "readIdentity": {"host": "server_read_identity", "port": "50052", "workers": 10},
+    "readIdentity": {"host": "localhost", "port": "50052", "workers": 10},
     "deleteIdentity": {"host": "server_delete_identity", "port": "50053", "workers": 10},
     "appearUserId": {"host": "server_appear_user_id_identity", "port": "50054", "workers": 10},
     # birthright
