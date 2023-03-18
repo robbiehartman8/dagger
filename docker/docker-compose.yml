@@ -5,6 +5,7 @@ networks:
     driver: bridge
 
 services:
+# identity
   server_read_identity:
     image: server_read_identity:latest
     hostname: server_read_identity
@@ -59,6 +60,14 @@ services:
       - "50056:50056"
     networks:
       - dagger  
+
+# odin
+  odin_identity:
+    image: odin_identity:latest
+    hostname: odin_identity
+    container_name: odin_identity
+    networks:
+      - dagger   
 
 # services
   redis-stack:

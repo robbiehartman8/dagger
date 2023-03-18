@@ -11,6 +11,8 @@ docker build -t server_delete_identity:latest -f services/identity/delete/Docker
 # brithright
 docker build -t server_read_birthright:latest -f services/birthright/read/Dockerfile .
 docker build -t server_get_access_birthright:latest -f services/birthright/get_access/Dockerfile .
+# odin
+docker build -t odin_identity:latest -f services/identity/odin_identity/Dockerfile .
 
 cd /Users/roberthartman/Desktop/repos/dagger/docker
 docker-compose up -d

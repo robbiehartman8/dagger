@@ -9,10 +9,6 @@ from config_utilities import service_config
 
 class OdinIdentityUtilities:
 
-    # move this to its own subfolder
-    # mechanism == "forward"
-    #   mechanism list attributes
-    #   0: topic_name
     def consumeData(self, redis_client, consumer, producer, topic_name, group_id, partition_id, mechanism, mechanism_list, logger):
         consumer_partition_ids = set()
         partition_data_id = 0
@@ -31,13 +27,9 @@ class OdinIdentityUtilities:
 
         for message in consumer:
             redis_client.set(f"kafka/{topic_name}/{partition_id}/{message.offset}", 1)
-            print ("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition, message.offset, message.key, message.value))
+            logger.info("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition, message.offset, message.key, message.value))
 
             if mechanism == "forward":
                 sent = KafkaUtilities().sendData(producer, mechanism_list[0], message.value, logger)
             elif mechanism == "service":
-                print(message.value)
-                # pass
-                CallService().callGetAccessBirthright("localhost", service_config['getAccessBirthright']['port'], message.value)
-                
-            # TODO: call birthright service
+                CallService().callGetAccessBirthright(service_config['getAccessBirthright']['host'], service_config['getAccessBirthright']['port'], message.value)
