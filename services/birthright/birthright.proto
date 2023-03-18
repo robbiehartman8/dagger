@@ -2,8 +2,8 @@ syntax = "proto3";
 
 service Birthright {
    rpc createUpdateBirthrightRule (birthrightRule) returns (birthrightRuleMessage) {}
-   rpc readBirthrightRule (readData) returns (birthrightData) {}
-   rpc deleteBirthrightRule (deleteData) returns (deleteMessage) {}
+   rpc readBirthrightRule (readBirthrightData) returns (birthrightData) {}
+   rpc deleteBirthrightRule (deleteBirthrightData) returns (deleteBirthrightMessage) {}
    rpc getBirthrightAccess (getAccess) returns (access) {}
 }
 
@@ -18,7 +18,7 @@ message birthrightRuleMessage {
     string status_message = 2;
 }
 
-message readData {
+message readBirthrightData {
     string birthright_rule_id = 1;
 }
 
@@ -26,14 +26,14 @@ message birthrightData {
     string birthright_rule_id = 1;
     string status = 2;
     string access_catalog_id = 3;
-    map<string, string> rule = 4;
+    map<string, string> rçule = 4;
 }
 
-message deleteData {
+message deleteBirthrightData {
     string birthright_rule_id = 1;
 }
 
-message deleteMessage {
+message deleteBirthrightMessage {
     string status_message = 1;
 }
 
