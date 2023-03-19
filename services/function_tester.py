@@ -14,7 +14,7 @@ def getAccessMeta(birthright_to_have):
 def getAccountsForIdentity(platform_to_birthright_dict):
     platform_to_account_dict = {}
     for key in platform_to_birthright_dict.keys():
-        account = "m32l4jnkj2n34kbnk23n4" # TODO: lookup account for each platform
+        account = "m32l4jnkj2n34kbnk23n4" # TODO: lookup account for each platform, might be more than one
         if key in platform_to_account_dict:
             platform_to_account_dict[key].append(account)
         else:
