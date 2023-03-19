@@ -26,5 +26,5 @@ class KafkaUtilities:
             producer.flush()
             return True
         except:
-            logger.critical(f"Could not forward kafka message : {message.value}")
+            logger.critical(f"Could not forward kafka message: {message.value}")
             return False

@@ -41,16 +41,14 @@ class Birthright(birthright_pb2_grpc.BirthrightServicer):
             get_user_id_request = {"identity_id": request.identity_id}
             identity_response = MessageToDict(CallService().callReadIdentity(service_config['readIdentity']['host'], service_config['readIdentity']['port'], get_user_id_request), preserving_proto_field_name=True)
             select_statement = BirthrightUtilities().getBirthrightSelect(identity_response)
-            print(select_statement)
-
             results = QueryUtilities().executeSelect(select_statement, self.snowflake_connection, self.logger)
 
             self.logger.info("Executed select statement")
             try:
                 response = self.service_util.getMVReadResponse(self.response_attributes, results)
                 response_data = birthright_pb2.birthrightItemsArray(**response)
-
-                KafkaUtilities().sendData(KafkaUtilities().getKafkaProducer(kafka_config["kafka_host"], self.logger), "provisioning", MessageToDict(response_data), self.logger)
+                response["identity"] = identity_response
+                KafkaUtilities().sendData(KafkaUtilities().getKafkaProducer(kafka_config["kafka_host"], self.logger), "provisioning", response, self.logger)
 
                 self.logger.info("Entry existed")
             except:

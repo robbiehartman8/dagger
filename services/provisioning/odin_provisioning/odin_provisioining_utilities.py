@@ -7,10 +7,6 @@ from kafka_utilities import KafkaUtilities
 
 class OdinProvisioningUtilities:
 
-    # move this to its own subfolder
-    # mechanism == "forward"
-    #   mechanism list attributes
-    #   0: topic_name
     def consumeData(self, redis_client, consumer, producer, topic_name, group_id, partition_id, mechanism, mechanism_list, logger):
         consumer_partition_ids = set()
         partition_data_id = 0
@@ -32,7 +28,7 @@ class OdinProvisioningUtilities:
             print ("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition, message.offset, message.key, message.value))
 
             if mechanism == "forward":
-                sent = KafkaUtilities().sendData(producer, mechanism_list[0], message.value, logger)
+                pass
             elif mechanism == "service":
                 pass
-            # TODO: call birthright service
+            

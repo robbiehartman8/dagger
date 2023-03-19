@@ -46,7 +46,7 @@ message birthrightItems {
 }
 
 message birthrightItemsArray {
-    repeated birthrightItems items = 1;
+    repeated birthrightItems birthrightAccess = 1;
 }
 
 // python -m grpc_tools.protoc --proto_path=. ./birthright.proto --python_out=. --grpc_python_out=.
